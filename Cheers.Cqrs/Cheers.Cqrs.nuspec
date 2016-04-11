@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cheers.Cqrs</id>
+    <version>1.0</version>
+    <title>Cheers.Cqrs</title>
+    <authors>Valtech</authors>
+    <owners>Valtech</owners>
+    <licenseUrl>https://github.com/ValtechInnovation/Cheers.Cqrs/blob/develop/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ValtechInnovation/Cheers.Cqrs</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cheers CQRS contracts</description>
+    <copyright>Copyright 2016 Valtech</copyright>
+    <tags>Cheers CQRS</tags>
+  </metadata>
+  <files>
+  	<file src="bin\Release\Cheers.Cqrs.*" target="lib\portable-net45+netcore45+wp8" />
+  </files>
+</package>
