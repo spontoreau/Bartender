@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Cheers.Locator</id>
+    <id>Cheers.SeviceLocator</id>
     <version>1.0</version>
-    <title>Cheers.Locator</title>
+    <title>Cheers.SeviceLocator</title>
     <authors>Valtech</authors>
     <owners>Valtech</owners>
-    <licenseUrl>https://github.com/ValtechInnovation/Cheers.Locator/blob/develop/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/ValtechInnovation/Cheers.Locator</projectUrl>
+    <licenseUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator/blob/develop/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Cheers Locator contracts</description>
+    <description>Cheers SeviceLocator contracts</description>
     <copyright>Copyright 2016 Valtech</copyright>
-    <tags>Cheers Locator</tags>
+    <tags>Cheers SeviceLocator</tags>
   </metadata>
   <files>
-  	<file src="bin\Release\Cheers.Locator.dll" target="lib\portable-net45+netcore45+wpa81" />
+  	<file src="bin\Release\Cheers.SeviceLocator.dll" target="lib\portable-net45+netcore45+wpa81" />
   </files>
 </package>
