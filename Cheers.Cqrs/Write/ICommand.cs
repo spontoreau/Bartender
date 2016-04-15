@@ -3,7 +3,7 @@
     /// <summary>
     /// Define a command
     /// </summary>
-    public interface ICommand
+    public interface ICommand : IDispatchable
     {
     }
 }
