@@ -1,4 +1,6 @@
-﻿namespace Cheers.Cqrs.Read
+﻿using System.Collections.Generic;
+
+namespace Cheers.Cqrs.Read
 {
     /// <summary>
     /// Define a query handler
@@ -13,8 +15,8 @@
         /// Handle a query
         /// </summary>
         /// <param name="query">Query to handle</param>
-        /// <returns>ReadModel</returns>
-        TReadModel Handle(TQuery query);
+        /// <returns>Enumerable of ReadModel</returns>
+        IEnumerable<TReadModel> Handle(TQuery query);
     }
 }
 
