@@ -10,7 +10,7 @@ test: off
 
 build:
       project: Cheers.Cqrs\Cheers.Cqrs.csproj
-	  verbosity: minimal
+      verbosity: minimal
 
 artifacts:
   path: Cheers.Cqrs\bin\$(configuration)
