@@ -59,7 +59,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Cheers.ServiceLocator">
-      <HintPath>..\packages\Cheers.SeviceLocator.1.0\lib\portable-net45+netcore45+wpa81\Cheers.ServiceLocator.dll</HintPath>
+      <HintPath>..\packages\Cheers.ServiceLocator.1.0\lib\portable-net45+netcore45+wpa81\Cheers.ServiceLocator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
