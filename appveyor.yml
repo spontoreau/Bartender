@@ -8,6 +8,9 @@ configuration: Release
 
 test: on
 
+before_build:
+  - nuget restore
+
 build:
       project: Cheers.ServiceLocator\Cheers.ServiceLocator.csproj
       verbosity: minimal
