@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Cheers.SeviceLocator</id>
+    <id>Cheers.ServiceLocator</id>
     <version>1.0</version>
-    <title>Cheers.SeviceLocator</title>
+    <title>Cheers.ServiceLocator</title>
     <authors>Valtech</authors>
     <owners>Valtech</owners>
     <licenseUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator/blob/develop/LICENSE</licenseUrl>
