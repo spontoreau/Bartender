@@ -9,9 +9,9 @@
     <licenseUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator/blob/develop/LICENSE</licenseUrl>
     <projectUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Cheers SeviceLocator contracts</description>
+    <description>Cheers ServiceLocator contracts</description>
     <copyright>Copyright 2016 Valtech</copyright>
-    <tags>Cheers SeviceLocator</tags>
+    <tags>Cheers ServiceLocator</tags>
   </metadata>
   <files>
   	<file src="bin\Release\Cheers.ServiceLocator.dll" target="lib\portable-net45+netcore45+wpa81" />
