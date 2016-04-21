@@ -50,7 +50,7 @@
       <HintPath>..\packages\Cheers.Cqrs.1.0\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\Cheers.Cqrs.dll</HintPath>
     </Reference>
     <Reference Include="Cheers.ServiceLocator">
-      <HintPath>..\packages\Cheers.SeviceLocator.1.0\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\Cheers.ServiceLocator.dll</HintPath>
+      <HintPath>..\packages\Cheers.ServiceLocator.1.0\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\Cheers.ServiceLocator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
