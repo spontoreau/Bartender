@@ -1,7 +1,7 @@
 # Cheers.Cqrs
 Cheers CQRS contracts
 
-[![Build status](https://ci.appveyor.com/api/projects/status/3s0e0yos3hfn402q?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-cqrs)
+[![Build status](https://ci.appveyor.com/api/projects/status/3s0e0yos3hfn402q?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-cqrs) [![NuGet version](https://badge.fury.io/nu/Cheers.Cqrs.svg)](https://badge.fury.io/nu/Cheers.Cqrs)
 
 ## Licence
 The MIT License (MIT)
