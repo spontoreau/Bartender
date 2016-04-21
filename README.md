@@ -1,7 +1,7 @@
 # Cheers.ServiceLocator
 Cheers ServiceLocator contracts
 
-[![Build status](https://ci.appveyor.com/api/projects/status/2flp146jy959eh2a?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-servicelocator)
+[![Build status](https://ci.appveyor.com/api/projects/status/2flp146jy959eh2a?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-servicelocator) [![NuGet version](https://badge.fury.io/nu/Cheers.ServiceLocator.svg)](https://badge.fury.io/nu/Cheers.ServiceLocator)
 
 ## Licence
 
