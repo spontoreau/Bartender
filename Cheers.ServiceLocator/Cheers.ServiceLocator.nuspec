@@ -14,6 +14,6 @@
     <tags>Cheers SeviceLocator</tags>
   </metadata>
   <files>
-  	<file src="bin\Release\Cheers.SeviceLocator.dll" target="lib\portable-net45+netcore45+wpa81" />
+  	<file src="bin\Release\Cheers.ServiceLocator.dll" target="lib\portable-net45+netcore45+wpa81" />
   </files>
 </package>
