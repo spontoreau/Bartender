@@ -1,6 +1,8 @@
 # Cheers.ServiceLocator
 Cheers ServiceLocator contracts
 
+[![Build status](https://ci.appveyor.com/api/projects/status/2flp146jy959eh2a?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-servicelocator)
+
 ## Licence
 
 The MIT License (MIT)
