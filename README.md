@@ -1,6 +1,8 @@
 # Cheers.Cqrs.InMemory
 Cheers in memory CQRS implementations
 
+[![Build status](https://ci.appveyor.com/api/projects/status/1870mem44xsjwn89?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-cqrs-inmemory)
+
 ## Licence
 
 The MIT License (MIT)
