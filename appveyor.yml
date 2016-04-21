@@ -12,9 +12,9 @@ before_build:
   - nuget restore
 
 build:
-      project: Cheers.ServiceLocator\Cheers.ServiceLocator.csproj
+      project: Cheers.Cqrs.InMemory\Cheers.Cqrs.InMemory.csproj
       verbosity: minimal
 
 artifacts:
-  path: Cheers.ServiceLocator\bin\$(configuration)
-  name: Cheers.ServiceLocator
+  path: Cheers.Cqrs.InMemory\bin\$(configuration)
+  name: Cheers.Cqrs.InMemory
