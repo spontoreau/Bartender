@@ -15,7 +15,15 @@ before_build:
 
 build:
       project: Cheers.Cqrs.InMemory\Cheers.Cqrs.InMemory.csproj
-      verbosity: minimal
+      verbosity: minimal      
+      publish_nuget: true
+      include_nuget_references: true
+
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: LVu+nQKMjKgF50fFDcSYCo4RPSUm+Z6LYcJwJF1z9n/3L6eZaSnmYWQLxPL00ymd
+    artifact: /.*\.nupkg/
 
 artifacts:
   path: Cheers.Cqrs.InMemory\bin\$(configuration)
