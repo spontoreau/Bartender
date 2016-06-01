@@ -1,7 +1,7 @@
 # Cheers.Cqrs.InMemory
 Cheers in memory CQRS implementations
 
-[![Build status](https://ci.appveyor.com/api/projects/status/1870mem44xsjwn89?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-cqrs-inmemory)
+[![Build status](https://ci.appveyor.com/api/projects/status/1870mem44xsjwn89?svg=true)](https://ci.appveyor.com/project/ValtechInnovation-ci/cheers-cqrs-inmemory) [![NuGet version](https://badge.fury.io/nu/Cheers.Cqrs.InMemory.svg)](https://badge.fury.io/nu/Cheers.Cqrs.InMemory)
 
 ## Licence
 
