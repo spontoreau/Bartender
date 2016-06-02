@@ -5,7 +5,6 @@ using Xunit;
 using Ploeh.AutoFixture;
 using FluentAssertions;
 using Cheers.ServiceLocator;
-using Cheers.Cqrs.InMemory.Write;
 using Cheers.Cqrs.InMemory.Exceptions;
 
 namespace Cheers.Cqrs.InMemory.Tests
@@ -18,6 +17,9 @@ namespace Cheers.Cqrs.InMemory.Tests
         Mock<ICommandHandler<Command, Result>> MockedCommandHandler { get; set; }
         Mock<ILocator> MockedLocator { get; set; }
         Fixture Fixture { get; set; }
+
+        readonly string MultipleHandlerExceptionMessageExpected = $"Multiple command handlers for '{typeof(Command).Name}'.";
+        readonly string NoHandlerExceptionMessageExpected = $"No command handler for '{typeof(Command).Name}'.";
 
         public CommandDispatcherTests()
         {
@@ -36,7 +38,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         public void ShouldCallHandle_WhenDispatchCommand()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            dispatcher.Dispatch<Command, Result>(It.IsAny<Command>());
+            dispatcher.Dispatch<Command, Result>(new Command());
             MockedCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
         }
 
@@ -64,8 +66,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command, Result>>()).Returns(() => new ICommandHandler<Command, Result>[] { });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Command, Result>(It.IsAny<Command>()));
-            action.ShouldThrow<NoCommandHandlerException>();
+            var action = new Action(() => dispatcher.Dispatch<Command, Result>(new Command()));
+            action.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -74,8 +76,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command, Result>>()).Returns(() => new [] { MockedCommandHandler.Object, MockedCommandHandler.Object });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Command, Result>(It.IsAny<Command>()));
-            action.ShouldThrow<MultipleCommandHandlerException>();
+            var action = new Action(() => dispatcher.Dispatch<Command, Result>(new Command()));
+            action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
     }
 }

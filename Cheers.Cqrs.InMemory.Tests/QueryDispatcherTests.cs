@@ -6,7 +6,6 @@ using Xunit;
 using FluentAssertions;
 using System.Collections.Generic;
 using Cheers.ServiceLocator;
-using Cheers.Cqrs.InMemory.Read;
 using Cheers.Cqrs.InMemory.Exceptions;
 
 namespace Cheers.Cqrs.InMemory.Tests
@@ -19,6 +18,9 @@ namespace Cheers.Cqrs.InMemory.Tests
         Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; set; }
         Mock<ILocator> MockedLocator { get; set; }
         Fixture Fixture { get; set; }
+
+        readonly string MultipleHandlerExceptionMessageExpected = $"Multiple query handlers for '{typeof(Query).Name}'.";
+        readonly string NoHandlerExceptionMessageExpected = $"No query handler for '{typeof(Query).Name}'.";
 
         public QueryDispatcherTests()
         {
@@ -37,7 +39,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         public void ShouldCallHandle_WhenDispatchQuery()
         {
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            dispatcher.Dispatch<Query, ReadModel>(It.IsAny<Query>());
+            dispatcher.Dispatch<Query, ReadModel>(new Query());
             MockedQueryHandler.Verify(method => method.Handle(It.IsAny<Query>()), Times.Once);
         }
 
@@ -65,8 +67,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IQueryHandler<Query, ReadModel>>()).Returns(() => new IQueryHandler<Query, ReadModel>[] { });
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(It.IsAny<Query>()));
-            action.ShouldThrow<NoQueryHandlerException>();
+            var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(new Query()));
+            action.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -75,8 +77,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IQueryHandler<Query, ReadModel>>()).Returns(() => new IQueryHandler<Query, ReadModel>[] { MockedQueryHandler.Object, MockedQueryHandler.Object });
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(It.IsAny<Query>()));
-            action.ShouldThrow<MultipleQueryHandlerException>();
+            var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(new Query()));
+            action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
     }
 }
