@@ -15,6 +15,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         public class Result : IResult { public string Value { get; set; } }
 
         Mock<ICommandHandler<Command, Result>> MockedCommandHandler { get; set; }
+        Mock<ICommandHandler<Command>> MockedVoidCommandHandler { get; set; }
         Mock<ILocator> MockedLocator { get; set; }
         Fixture Fixture { get; set; }
 
@@ -30,8 +31,12 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedCommandHandler = new Mock<ICommandHandler<Command, Result>>();
             MockedCommandHandler.Setup(method => method.Handle(It.IsAny<Command>())).Returns(It.IsAny<Result>);
 
+            MockedVoidCommandHandler = new Mock<ICommandHandler<Command>>();
+
             MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command, Result>>()).Returns(() => new[] { MockedCommandHandler.Object });
             MockedLocator.Setup(method => method.GetService<ICommandHandler<Command, Result>>()).Returns(() => MockedCommandHandler.Object);
+            MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command>>()).Returns(() => new[] { MockedVoidCommandHandler.Object });
+            MockedLocator.Setup(method => method.GetService<ICommandHandler<Command>>()).Returns(() => MockedVoidCommandHandler.Object);
         }
 
         [Fact]
@@ -77,6 +82,34 @@ namespace Cheers.Cqrs.InMemory.Tests
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
             var action = new Action(() => dispatcher.Dispatch<Command, Result>(new Command()));
+            action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
+        }
+
+        [Fact]
+        public void ShouldCallHandle_WhenDispatchCommandWithoutReturn()
+        {
+            var dispatcher = new CommandDispatcher(MockedLocator.Object);
+            dispatcher.Dispatch<Command>(new Command());
+            MockedVoidCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldThrowExcpetion_WhenNoCommandHandlerWithoutReturn()
+        {
+            MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command>>()).Returns(() => new ICommandHandler<Command>[] { });
+
+            var dispatcher = new CommandDispatcher(MockedLocator.Object);
+            var action = new Action(() => dispatcher.Dispatch<Command>(new Command()));
+            action.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
+        }
+
+        [Fact]
+        public void ShouldThrowExcpetion_WhenMultipleCommandHandlerWithoutReturn()
+        {
+            MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command>>()).Returns(() => new [] { MockedVoidCommandHandler.Object, MockedVoidCommandHandler.Object });
+
+            var dispatcher = new CommandDispatcher(MockedLocator.Object);
+            var action = new Action(() => dispatcher.Dispatch<Command>(new Command()));
             action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
     }

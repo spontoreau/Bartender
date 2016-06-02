@@ -44,7 +44,9 @@ namespace Cheers.Cqrs.InMemory
         public void Dispatch<TCommand>(TCommand command) 
             where TCommand : ICommand
         {
-            throw new NotImplementedException();
+            var handlers = Locator.GetAllServices<ICommandHandler<TCommand>>().ToArray();
+            Validate(handlers.Count(), command);
+            handlers.Single().Handle(command);
         }
 
         /// <summary>
