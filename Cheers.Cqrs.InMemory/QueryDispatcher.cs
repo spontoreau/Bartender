@@ -45,11 +45,13 @@ namespace Cheers.Cqrs.InMemory
         /// <typeparam name="TReadModel">ReadModel type</typeparam>
         /// <param name="query">Query to dispatch</param>
         /// <returns>Enumerable of ReadModel</returns>
-        public Task<IEnumerable<TReadModel>> DispatchAsync<TQuery, TReadModel>(TQuery query)
+        public async Task<IEnumerable<TReadModel>> DispatchAsync<TQuery, TReadModel>(TQuery query)
             where TQuery : IQuery
             where TReadModel : IReadModel
         {
-            throw new NotImplementedException();
+            var handlers = Locator.GetAllServices<IAsyncQueryHandler<TQuery, TReadModel>>().ToArray();
+            Validate(handlers.Count(), query);
+            return await handlers.Single().Handle(query);
         }
     }
 }
