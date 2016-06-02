@@ -41,6 +41,7 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetService<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => MockedAsyncQueryHandler.Object);
         }
 
+        #region Synchronous dispatch tests
         [Fact]
         public void ShouldCallHandle_WhenDispatchQuery()
         {
@@ -86,7 +87,9 @@ namespace Cheers.Cqrs.InMemory.Tests
             var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(new Query()));
             action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
+        #endregion
 
+        #region Asynchronous dispatch tests
         [Fact]
         public void ShouldCallHandle_WhenDispatchQueryAsync()
         {
@@ -119,7 +122,6 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => new IAsyncQueryHandler<Query, ReadModel>[] { });
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var action = new Action(async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query()));
             var task = Task.Run(async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query()));
             Exception actual = null;
             try
@@ -170,6 +172,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
 
         }
+        #endregion
     }
 }
 

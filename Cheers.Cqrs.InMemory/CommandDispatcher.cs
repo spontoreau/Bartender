@@ -65,10 +65,12 @@ namespace Cheers.Cqrs.InMemory
         /// Dispatch a command asynchronously.
         /// </summary>
         /// <param name="command">Command to dispatch</param>
-        public Task DispatchAsync<TCommand>(TCommand command)
+        public async Task DispatchAsync<TCommand>(TCommand command)
             where TCommand : ICommand
         {
-            throw new NotImplementedException();
+            var handlers = Locator.GetAllServices<IAsyncCommandHandler<TCommand>>().ToArray();
+            Validate(handlers.Count(), command);
+            await handlers.Single().Handle(command);
         }
     }
 }
