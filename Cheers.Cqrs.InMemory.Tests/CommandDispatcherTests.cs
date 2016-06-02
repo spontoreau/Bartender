@@ -215,7 +215,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         #endregion
 
         #region Asynchronous dispatch tests without results
-        [Fact]
+        /*[Fact]
         public void ShouldCallHandle_WhenDispatchAsyncCommandWithoutReturn()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
@@ -270,7 +270,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .And.Subject
                 .Should().BeOfType<MultipleHandlerException>()
                 .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
-        }
+        }*/
         #endregion
     }
 }
