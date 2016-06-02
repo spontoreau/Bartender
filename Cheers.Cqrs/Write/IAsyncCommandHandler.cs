@@ -5,7 +5,6 @@ namespace Cheers.Cqrs.Write
     /// <summary>
     /// Define an asynchronous command handler
     /// </summary>
-    /// <typeparam name="TCommand"></typeparam>
     public interface IAsyncCommandHandler<TCommand> 
         where TCommand : ICommand
     {
