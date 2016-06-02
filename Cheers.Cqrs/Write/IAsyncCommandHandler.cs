@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Cheers.Cqrs.Write
 {
@@ -7,6 +6,19 @@ namespace Cheers.Cqrs.Write
     /// Define an asynchronous command handler
     /// </summary>
     /// <typeparam name="TCommand"></typeparam>
+    public interface IAsyncCommandHandler<TCommand> 
+        where TCommand : ICommand
+    {
+        /// <summary>
+        /// Handle a command
+        /// </summary>
+        /// <param name="command">Command to handle</param>
+        Task Handle(TCommand command);
+    }
+
+    /// <summary>
+    /// Define an asynchronous command handler
+    /// </summary>
     public interface IAsyncCommandHandler<TCommand, TResult> 
         where TCommand : ICommand
         where TResult : IResult

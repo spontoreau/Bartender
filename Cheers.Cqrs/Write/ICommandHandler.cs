@@ -1,9 +1,18 @@
 ﻿namespace Cheers.Cqrs.Write
 {
+    public interface ICommandHandler<TCommand> 
+        where TCommand : ICommand
+    {
+        /// <summary>
+        /// Handle a command
+        /// </summary>
+        /// <param name="command">Command to handle</param>
+        void Handle(TCommand command);
+    }
+
     /// <summary>
     /// Define a command handler
     /// </summary>
-    /// <typeparam name="TCommand"></typeparam>
     public interface ICommandHandler<in TCommand, out TResult> 
         where TCommand : ICommand
         where TResult : IResult

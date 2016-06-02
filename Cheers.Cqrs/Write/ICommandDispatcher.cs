@@ -10,8 +10,6 @@ namespace Cheers.Cqrs.Write
         /// <summary>
         /// Dispatch a command
         /// </summary>
-        /// <typeparam name="TCommand">Command type</typeparam>
-        /// <typeparam name="TCommand">Command type</typeparam>
         /// <param name="command">Command to dispatch</param>
         /// <returns>Result</returns>
         TResult Dispatch<TCommand, TResult>(TCommand command) 
@@ -19,10 +17,15 @@ namespace Cheers.Cqrs.Write
             where TResult : IResult;
 
         /// <summary>
+        /// Dispatch the specified command.
+        /// </summary>
+        /// <param name="command">Command.</param>
+        void Dispatch<TCommand>(TCommand command) 
+            where TCommand : ICommand;
+
+        /// <summary>
         /// Dispatch a command asynchronously.
         /// </summary>
-        /// <typeparam name="TCommand">Command type</typeparam>
-        /// <typeparam name="TCommand">Command type</typeparam>
         /// <param name="command">Command to dispatch</param>
         /// <returns>Result</returns>
         Task<TResult> DispatchAsync<TCommand, TResult>(TCommand command)
