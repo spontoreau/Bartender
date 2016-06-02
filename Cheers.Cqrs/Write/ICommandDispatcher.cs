@@ -31,6 +31,13 @@ namespace Cheers.Cqrs.Write
         Task<TResult> DispatchAsync<TCommand, TResult>(TCommand command)
             where TCommand : ICommand
             where TResult : IResult;
+
+        /// <summary>
+        /// Dispatch a command asynchronously.
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        Task DispatchAsync<TCommand>(TCommand command)
+            where TCommand : ICommand;
     }
 }
 
