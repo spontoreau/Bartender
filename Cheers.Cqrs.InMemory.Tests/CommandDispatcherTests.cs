@@ -215,12 +215,12 @@ namespace Cheers.Cqrs.InMemory.Tests
         #endregion
 
         #region Asynchronous dispatch tests without results
-        /*[Fact]
+        [Fact]
         public void ShouldCallHandle_WhenDispatchAsyncCommandWithoutReturn()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(async () => await dispatcher.DispatchAsync<Command>(new Command()));
-            action.Invoke();
+            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
+            Task.WaitAll(task);
             MockedVoidAsyncCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
         }
 
@@ -230,15 +230,19 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command>>()).Returns(() => new IAsyncCommandHandler<Command>[] { });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(async () => await dispatcher.DispatchAsync<Command>(new Command()));
+            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
             Exception actual = null;
             try
             {
-                action.Invoke();
+                Task.WaitAll(task);
             }
-            catch(Exception ex)
+            catch(AggregateException ex)
             {
-                actual = ex;
+                ex.Handle(x => 
+                    {
+                        actual = x;
+                        return true;
+                    });
             }
 
             actual
@@ -254,15 +258,19 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command>>()).Returns(() => new [] { MockedVoidAsyncCommandHandler.Object, MockedVoidAsyncCommandHandler.Object });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(async () => await dispatcher.DispatchAsync<Command>(new Command()));
+            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
             Exception actual = null;
             try
             {
-                action.Invoke();
+                Task.WaitAll(task);
             }
-            catch(Exception ex)
+            catch(AggregateException ex)
             {
-                actual = ex;
+                ex.Handle(x => 
+                    {
+                        actual = x;
+                        return true;
+                    });
             }
 
             actual
@@ -270,7 +278,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .And.Subject
                 .Should().BeOfType<MultipleHandlerException>()
                 .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
-        }*/
+        }
         #endregion
     }
 }
