@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Cheers.Cqrs.InMemory</id>
-    <version>1.0</version>
+    <version>1.2.0</version>
     <title>Cheers.Cqrs.InMemory</title>
     <authors>Valtech</authors>
     <owners>Valtech</owners>
@@ -12,6 +12,10 @@
     <description>Cheers CQRS InMemory</description>
     <copyright>Copyright 2016 Valtech</copyright>
     <tags>Cheers CQRS InMemory</tags>
+    <dependencies>
+      <dependency id="Cheers.ServiceLocator" version="1.0.0" />
+      <dependency id="Cheers.Cqrs" version="1.2.0" />
+    </dependencies>
   </metadata>
   <files>
   	<file src="bin\Release\Cheers.Cqrs.InMemory.dll" target="lib\portable-net45+netcore45+wpa81" />
