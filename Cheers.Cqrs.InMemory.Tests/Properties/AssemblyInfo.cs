@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("Cheers.Cqrs.InMemory.Tests")]
 [assembly: AssemblyDescription("Cheers in memory CQRS implementation tests")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Valtech")]
+[assembly: AssemblyCompany("CheersTeam")]
 [assembly: AssemblyProduct("Cheers")]
-[assembly: AssemblyCopyright("© 2016 Valtech")]
+[assembly: AssemblyCopyright("© 2016 CheersTeam")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
