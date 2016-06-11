@@ -4,13 +4,13 @@
     <id>Cheers.Cqrs</id>
     <version>1.2</version>
     <title>Cheers.Cqrs</title>
-    <authors>Valtech</authors>
-    <owners>Valtech</owners>
-    <licenseUrl>https://github.com/ValtechInnovation/Cheers.Cqrs/blob/develop/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/ValtechInnovation/Cheers.Cqrs</projectUrl>
+    <authors>CheersTeam</authors>
+    <owners>CheersTeam</owners>
+    <licenseUrl>https://github.com/CheersTeam/Cheers/blob/develop/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/CheersTeam/Cheers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers CQRS contracts</description>
-    <copyright>Copyright 2016 Valtech</copyright>
+    <copyright>Copyright 2016 CheersTeam</copyright>
     <tags>Cheers CQRS</tags>
   </metadata>
   <files>
