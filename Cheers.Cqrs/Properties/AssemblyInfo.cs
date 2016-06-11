@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("Cheers.Cqrs")]
 [assembly: AssemblyDescription("Cheers CQRS contracts")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Valtech")]
+[assembly: AssemblyCompany("CheersTeam")]
 [assembly: AssemblyProduct("Cheers")]
-[assembly: AssemblyCopyright("© 2016 Valtech")]
+[assembly: AssemblyCopyright("© 2016 CheersTeam")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
