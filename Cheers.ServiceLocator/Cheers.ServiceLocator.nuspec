@@ -4,8 +4,8 @@
     <id>Cheers.ServiceLocator</id>
     <version>1.0</version>
     <title>Cheers.ServiceLocator</title>
-    <authors>Valtech</authors>
-    <owners>Valtech</owners>
+    <authors>CheersTeam</authors>
+    <owners>CheersTeam</owners>
     <licenseUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator/blob/develop/LICENSE</licenseUrl>
     <projectUrl>https://github.com/ValtechInnovation/Cheers.SeviceLocator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
