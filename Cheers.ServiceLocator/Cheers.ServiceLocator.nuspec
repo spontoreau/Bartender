@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>Cheers.ServiceLocator</id>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <title>Cheers.ServiceLocator</title>
     <authors>Cheers</authors>
     <owners>Cheers</owners>
-    <licenseUrl>https://github.com/Cheers/Cheers/blob/develop/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers ServiceLocator contracts</description>
