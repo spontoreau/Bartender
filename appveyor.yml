@@ -11,16 +11,12 @@ skip_commits:
 
 configuration: Release
 
-test:
-  assemblies:
-    - '**\*.tests.dll'
-
 before_build:
   - nuget restore
 
 build:
-      project: Cheers.Cqrs.InMemory\Cheers.Cqrs.InMemory.csproj
-      verbosity: minimal      
+      project: Cheers.Cqrs.InMemory.sln
+      verbosity: normal
       publish_nuget: true
       include_nuget_references: true
 

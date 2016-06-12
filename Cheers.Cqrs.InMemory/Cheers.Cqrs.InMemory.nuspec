@@ -2,19 +2,19 @@
 <package >
   <metadata>
     <id>Cheers.Cqrs.InMemory</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <title>Cheers.Cqrs.InMemory</title>
     <authors>Cheers</authors>
     <owners>Cheers</owners>
-    <licenseUrl>https://github.com/Cheers/Cheers/blob/develop/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers CQRS InMemory</description>
     <copyright>Copyright 2016 Cheers</copyright>
     <tags>Cheers CQRS InMemory</tags>
     <dependencies>
-      <dependency id="Cheers.ServiceLocator" version="1.0.0" />
-      <dependency id="Cheers.Cqrs" version="1.2.0" />
+      <dependency id="Cheers.ServiceLocator" version="1.0.1" />
+      <dependency id="Cheers.Cqrs" version="1.2.1" />
     </dependencies>
   </metadata>
   <files>
