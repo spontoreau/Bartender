@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>Cheers.Cqrs</id>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <title>Cheers.Cqrs</title>
     <authors>Cheers</authors>
     <owners>Cheers</owners>
-    <licenseUrl>https://github.com/Cheers/Cheers/blob/develop/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers CQRS contracts</description>

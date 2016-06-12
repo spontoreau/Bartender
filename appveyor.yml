@@ -14,8 +14,8 @@ configuration: Release
 test: off
 
 build:
-      project: Cheers.Cqrs\Cheers.Cqrs.csproj
-      verbosity: minimal
+      project: Cheers.Cqrs.sln
+      verbosity: normal
       publish_nuget: true
       include_nuget_references: true
 
