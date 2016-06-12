@@ -4,13 +4,13 @@
     <id>Cheers.ServiceLocator</id>
     <version>1.0</version>
     <title>Cheers.ServiceLocator</title>
-    <authors>CheersTeam</authors>
-    <owners>CheersTeam</owners>
-    <licenseUrl>https://github.com/CheersTeam/Cheers/blob/develop/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/CheersTeam/Cheers</projectUrl>
+    <authors>Cheers</authors>
+    <owners>Cheers</owners>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/develop/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers ServiceLocator contracts</description>
-    <copyright>Copyright 2016 CheersTeam</copyright>
+    <copyright>Copyright 2016 Cheers</copyright>
     <tags>Cheers ServiceLocator</tags>
   </metadata>
   <files>
