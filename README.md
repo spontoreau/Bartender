@@ -3,6 +3,15 @@ Cheers CQRS contracts
 
 [![Build status](https://ci.appveyor.com/api/projects/status/pf75f9cerojno80p?svg=true)](https://ci.appveyor.com/project/Cheers-CI/cheers-cqrs) [![NuGet version](https://badge.fury.io/nu/Cheers.Cqrs.svg)](https://badge.fury.io/nu/Cheers.Cqrs)
 
+
+## Documentation
+The documentation can be find [Here](https://github.com/Cheers/Cheers/wiki)
+
+
+## Contributing
+Please read [this](https://github.com/Cheers/Cheers/blob/master/CONTRIBUTING.md) !
+
+
 ## Licence
 The MIT License (MIT)
 
