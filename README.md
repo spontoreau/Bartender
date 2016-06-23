@@ -5,7 +5,7 @@ Cheers ServiceLocator contracts
 
 
 ## Documentation
-Can be find [Here](https://github.com/Cheers/Cheers/wiki)
+The documentation can be find [Here](https://github.com/Cheers/Cheers/wiki)
 
 
 ## Contributing
