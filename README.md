@@ -3,6 +3,15 @@ Cheers ServiceLocator contracts
 
 [![Build status](https://ci.appveyor.com/api/projects/status/qhr6h2gxi5rnp0pm?svg=true)](https://ci.appveyor.com/project/Cheers-CI/cheers-servicelocator) [![NuGet version](https://badge.fury.io/nu/Cheers.ServiceLocator.svg)](https://badge.fury.io/nu/Cheers.ServiceLocator)
 
+
+## Documentation
+Can be find [Here](https://github.com/Cheers/Cheers/wiki)
+
+
+## Contributing
+Please read [this](https://github.com/Cheers/Cheers/blob/master/CONTRIBUTING.md) !
+
+
 ## Licence
 
 The MIT License (MIT)
