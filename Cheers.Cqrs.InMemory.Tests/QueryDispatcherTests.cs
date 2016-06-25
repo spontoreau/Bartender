@@ -91,15 +91,15 @@ namespace Cheers.Cqrs.InMemory.Tests
 
         #region Asynchronous dispatch tests
         [Fact]
-        public void ShouldCallHandle_WhenDispatchQueryAsync()
+        public async void ShouldCallHandle_WhenDispatchQueryAsync()
         {
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var result = Task.Run(async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query())).Result;
+            await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
             MockedAsyncQueryHandler.Verify(method => method.Handle(It.IsAny<Query>()), Times.Once);
         }
 
         [Fact]
-        public void ShouldReturnValue_WhenDispatchQueryAsync()
+        public async void ShouldReturnValue_WhenDispatchQueryAsync()
         {
             var expected = Fixture.Create<IEnumerable<ReadModel>>();
             var query = Fixture.Create<Query>();
@@ -110,7 +110,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .Callback<Query>(q => handledQuery = q);
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var actual = Task.Run(async () => await dispatcher.DispatchAsync<Query, ReadModel>(query)).Result;
+            var actual = await dispatcher.DispatchAsync<Query, ReadModel>(query);
 
             query.ShouldBeEquivalentTo(handledQuery);
             expected.ShouldBeEquivalentTo(actual);
@@ -122,26 +122,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => new IAsyncQueryHandler<Query, ReadModel>[] { });
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query()));
-            Exception actual = null;
-            try
-            {
-                var result = task.Result;
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<NoHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(NoHandlerExceptionMessageExpected);
+            Func<Task> actual = async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
+            actual.ShouldThrow<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -150,26 +132,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => new IAsyncQueryHandler<Query, ReadModel>[] { MockedAsyncQueryHandler.Object, MockedAsyncQueryHandler.Object });
 
             var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query()));
-            Exception actual = null;
-            try
-            {
-                var result = task.Result;
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<MultipleHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
+            Func<Task> actual = async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
+            actual.ShouldThrow<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
 
         }
         #endregion
