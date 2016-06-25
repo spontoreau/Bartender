@@ -4,6 +4,9 @@
 #OSX
 .DS_Store
 
+#Idea
+.idea*
+
 # User-specific files
 *.suo
 *.user

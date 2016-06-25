@@ -105,7 +105,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         public void ShouldCallHandle_WhenDispatchCommandWithoutReturn()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            dispatcher.Dispatch<Command>(new Command());
+            dispatcher.Dispatch(new Command());
             MockedVoidCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
         }
 
@@ -115,7 +115,7 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command>>()).Returns(() => new ICommandHandler<Command>[] { });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Command>(new Command()));
+            var action = new Action(() => dispatcher.Dispatch(new Command()));
             action.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
@@ -125,22 +125,22 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<ICommandHandler<Command>>()).Returns(() => new [] { MockedVoidCommandHandler.Object, MockedVoidCommandHandler.Object });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var action = new Action(() => dispatcher.Dispatch<Command>(new Command()));
+            var action = new Action(() => dispatcher.Dispatch(new Command()));
             action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
         #endregion
 
         #region Aynchronous dispatch tests
         [Fact]
-        public void ShouldCallHandle_WhenDispatchCommandAsync()
+        public async void ShouldCallHandle_WhenDispatchCommandAsync()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var result = Task.Run(async () => await dispatcher.DispatchAsync<Command, Result>(new Command())).Result;
+            await dispatcher.DispatchAsync<Command, Result>(new Command());
             MockedAsyncCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
         }
 
         [Fact]
-        public void ShouldReturnValue_WhenHandleCommandAsync()
+        public async void ShouldReturnValue_WhenHandleCommandAsync()
         {
             var expected = Fixture.Create<Result>();
             var command = Fixture.Create<Command>();
@@ -151,7 +151,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .Callback<Command>(c => handledCommand = c);
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var actual = Task.Run(async () => await dispatcher.DispatchAsync<Command, Result>(command)).Result;
+            var actual = await dispatcher.DispatchAsync<Command, Result>(command);
 
             command.ShouldBeEquivalentTo(handledCommand);
             expected.ShouldBeEquivalentTo(actual);
@@ -163,26 +163,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command, Result>>()).Returns(() => new IAsyncCommandHandler<Command, Result>[] { });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command, Result>(new Command()));
-            Exception actual = null;
-            try
-            {
-                var result = task.Result;
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<NoHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(NoHandlerExceptionMessageExpected);
+            Func<Task> act = async () => { await dispatcher.DispatchAsync<Command, Result>(new Command()); };
+            act.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -191,36 +173,17 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command, Result>>()).Returns(() => new [] { MockedAsyncCommandHandler.Object, MockedAsyncCommandHandler.Object });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command, Result>(new Command()));
-            Exception actual = null;
-            try
-            {
-                var result = task.Result;
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<MultipleHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
+            Func<Task> act = async () => await dispatcher.DispatchAsync<Command, Result>(new Command());
+            act.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
         #endregion
 
         #region Asynchronous dispatch tests without results
         [Fact]
-        public void ShouldCallHandle_WhenDispatchAsyncCommandWithoutReturn()
+        public async void ShouldCallHandle_WhenDispatchAsyncCommandWithoutReturn()
         {
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
-            Task.WaitAll(task);
+            await dispatcher.DispatchAsync(new Command());
             MockedVoidAsyncCommandHandler.Verify(method => method.Handle(It.IsAny<Command>()), Times.Once);
         }
 
@@ -230,26 +193,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command>>()).Returns(() => new IAsyncCommandHandler<Command>[] { });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
-            Exception actual = null;
-            try
-            {
-                Task.WaitAll(task);
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<NoHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(NoHandlerExceptionMessageExpected);
+            Func<Task> act = async () => await dispatcher.DispatchAsync(new Command());
+            act.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -258,26 +203,8 @@ namespace Cheers.Cqrs.InMemory.Tests
             MockedLocator.Setup(method => method.GetAllServices<IAsyncCommandHandler<Command>>()).Returns(() => new [] { MockedVoidAsyncCommandHandler.Object, MockedVoidAsyncCommandHandler.Object });
 
             var dispatcher = new CommandDispatcher(MockedLocator.Object);
-            var task = Task.Run(async () => await dispatcher.DispatchAsync<Command>(new Command()));
-            Exception actual = null;
-            try
-            {
-                Task.WaitAll(task);
-            }
-            catch(AggregateException ex)
-            {
-                ex.Handle(x => 
-                    {
-                        actual = x;
-                        return true;
-                    });
-            }
-
-            actual
-                .Should().NotBeNull()
-                .And.Subject
-                .Should().BeOfType<MultipleHandlerException>()
-                .Which.Message.ShouldBeEquivalentTo(MultipleHandlerExceptionMessageExpected);
+            Func<Task> act = async () => await dispatcher.DispatchAsync(new Command());
+            act.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
         #endregion
     }
