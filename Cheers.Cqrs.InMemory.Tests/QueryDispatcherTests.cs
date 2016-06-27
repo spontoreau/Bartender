@@ -45,7 +45,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         [Fact]
         public void ShouldCallHandle_WhenDispatchQuery()
         {
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
+            var dispatcher = (IQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
             dispatcher.Dispatch<Query, ReadModel>(new Query());
             MockedQueryHandler.Verify(method => method.Handle(It.IsAny<Query>()), Times.Once);
         }
@@ -61,7 +61,7 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .Returns(expected)
                 .Callback<Query>(q => handledQuery = q);
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
+            var dispatcher = (IQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
             var actual = dispatcher.Dispatch<Query, ReadModel>(query);
 
             query.ShouldBeEquivalentTo(handledQuery);
@@ -73,7 +73,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         {
             MockedLocator.Setup(method => method.GetAllServices<IQueryHandler<Query, ReadModel>>()).Returns(() => new IQueryHandler<Query, ReadModel>[] { });
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
+            var dispatcher = (IQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
             var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(new Query()));
             action.ShouldThrowExactly<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
@@ -83,7 +83,7 @@ namespace Cheers.Cqrs.InMemory.Tests
         {
             MockedLocator.Setup(method => method.GetAllServices<IQueryHandler<Query, ReadModel>>()).Returns(() => new IQueryHandler<Query, ReadModel>[] { MockedQueryHandler.Object, MockedQueryHandler.Object });
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
+            var dispatcher = (IQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
             var action = new Action(() => dispatcher.Dispatch<Query, ReadModel>(new Query()));
             action.ShouldThrowExactly<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
         }
@@ -93,8 +93,8 @@ namespace Cheers.Cqrs.InMemory.Tests
         [Fact]
         public async void ShouldCallHandle_WhenDispatchQueryAsync()
         {
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
+            var dispatcher = (IAsyncQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
+            await dispatcher.Dispatch<Query, ReadModel>(new Query());
             MockedAsyncQueryHandler.Verify(method => method.Handle(It.IsAny<Query>()), Times.Once);
         }
 
@@ -109,8 +109,8 @@ namespace Cheers.Cqrs.InMemory.Tests
                 .Returns(Task.FromResult(expected))
                 .Callback<Query>(q => handledQuery = q);
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            var actual = await dispatcher.DispatchAsync<Query, ReadModel>(query);
+            var dispatcher = (IAsyncQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
+            var actual = await dispatcher.Dispatch<Query, ReadModel>(query);
 
             query.ShouldBeEquivalentTo(handledQuery);
             expected.ShouldBeEquivalentTo(actual);
@@ -121,8 +121,8 @@ namespace Cheers.Cqrs.InMemory.Tests
         {
             MockedLocator.Setup(method => method.GetAllServices<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => new IAsyncQueryHandler<Query, ReadModel>[] { });
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            Func<Task> actual = async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
+            var dispatcher = (IAsyncQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
+            Func<Task> actual = async () => await dispatcher.Dispatch<Query, ReadModel>(new Query());
             actual.ShouldThrow<NoHandlerException>().WithMessage(NoHandlerExceptionMessageExpected);
         }
 
@@ -131,8 +131,8 @@ namespace Cheers.Cqrs.InMemory.Tests
         {
             MockedLocator.Setup(method => method.GetAllServices<IAsyncQueryHandler<Query, ReadModel>>()).Returns(() => new IAsyncQueryHandler<Query, ReadModel>[] { MockedAsyncQueryHandler.Object, MockedAsyncQueryHandler.Object });
 
-            var dispatcher = new QueryDispatcher(MockedLocator.Object);
-            Func<Task> actual = async () => await dispatcher.DispatchAsync<Query, ReadModel>(new Query());
+            var dispatcher = (IAsyncQueryDispatcher)new QueryDispatcher(MockedLocator.Object);
+            Func<Task> actual = async () => await dispatcher.Dispatch<Query, ReadModel>(new Query());
             actual.ShouldThrow<MultipleHandlerException>().WithMessage(MultipleHandlerExceptionMessageExpected);
 
         }
