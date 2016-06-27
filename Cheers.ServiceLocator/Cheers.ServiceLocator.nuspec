@@ -8,6 +8,7 @@
     <owners>Cheers</owners>
     <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Cheers/cheers.github.io/master/cheers.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Cheers ServiceLocator contracts</description>
     <copyright>Copyright 2016 Cheers</copyright>
