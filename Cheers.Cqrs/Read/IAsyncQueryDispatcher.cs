@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cheers.Cqrs.Read
 {
     /// <summary>
-    /// Define a query dispatcher
+    /// Define an asynchronous query dispatcher
     /// </summary>
-    public interface IQueryDispatcher
+    public interface IAsyncQueryDispatcher
     {
         /// <summary>
-        /// Dispatch a query
+        /// Dispatch a query asynchronously.
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TReadModel">ReadModel type</typeparam>
         /// <param name="query">Query to dispatch</param>
         /// <returns>Enumerable of ReadModel</returns>
-        IEnumerable<TReadModel> Dispatch<TQuery, TReadModel>(TQuery query)
+        Task<IEnumerable<TReadModel>> Dispatch<TQuery, TReadModel>(TQuery query)
             where TQuery : IQuery
             where TReadModel : IReadModel;
     }
