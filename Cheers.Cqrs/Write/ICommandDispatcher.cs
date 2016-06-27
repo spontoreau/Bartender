@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Cheers.Cqrs.Write
+﻿namespace Cheers.Cqrs.Write
 {
     /// <summary>
     /// Define a command dispatcher
@@ -21,22 +19,6 @@ namespace Cheers.Cqrs.Write
         /// </summary>
         /// <param name="command">Command.</param>
         void Dispatch<TCommand>(TCommand command) 
-            where TCommand : ICommand;
-
-        /// <summary>
-        /// Dispatch a command asynchronously.
-        /// </summary>
-        /// <param name="command">Command to dispatch</param>
-        /// <returns>Result</returns>
-        Task<TResult> DispatchAsync<TCommand, TResult>(TCommand command)
-            where TCommand : ICommand
-            where TResult : IResult;
-
-        /// <summary>
-        /// Dispatch a command asynchronously.
-        /// </summary>
-        /// <param name="command">Command to dispatch</param>
-        Task DispatchAsync<TCommand>(TCommand command)
             where TCommand : ICommand;
     }
 }

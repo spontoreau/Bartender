@@ -43,6 +43,8 @@
     <Compile Include="IDispatchable.cs" />
     <Compile Include="Read\IAsyncQueryHandler.cs" />
     <Compile Include="Write\IAsyncCommandHandler.cs" />
+    <Compile Include="Read\IAsyncQueryDispatcher.cs" />
+    <Compile Include="Write\IAsyncCommandDispatcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
