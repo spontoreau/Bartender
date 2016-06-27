@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Cheers.Cqrs.Write;
 using Cheers.ServiceLocator;
@@ -9,7 +8,7 @@ namespace Cheers.Cqrs.InMemory
     /// <summary>
     /// Command dispatcher
     /// </summary>
-    public class CommandDispatcher : AbstractDispatcher, ICommandDispatcher
+    public class CommandDispatcher : AbstractDispatcher, ICommandDispatcher, IAsyncCommandDispatcher
     {
         /// <summary>
         /// Create a new instance of CommandDispatcher
@@ -28,9 +27,7 @@ namespace Cheers.Cqrs.InMemory
         /// <typeparam name="TResult">Result type</typeparam>
         /// <param name="command">Command to dispatch</param>
         /// <returns>Result</returns>
-        public TResult Dispatch<TCommand, TResult>(TCommand command)
-            where TCommand : ICommand
-            where TResult : IResult
+        TResult ICommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
         {
             var handlers = Locator.GetAllServices<ICommandHandler<TCommand, TResult>>().ToArray();
             Validate(handlers.Count(), command);
@@ -41,8 +38,7 @@ namespace Cheers.Cqrs.InMemory
         /// Dispatch the specified command.dispatchable
         /// </summary>
         /// <param name="command">Command.</param>
-        public void Dispatch<TCommand>(TCommand command) 
-            where TCommand : ICommand
+        void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
         {
             var handlers = Locator.GetAllServices<ICommandHandler<TCommand>>().ToArray();
             Validate(handlers.Count(), command);
@@ -54,9 +50,7 @@ namespace Cheers.Cqrs.InMemory
         /// </summary>
         /// <param name="command">Command to dispatch</param>
         /// <returns>Result</returns>
-        public async Task<TResult> DispatchAsync<TCommand, TResult>(TCommand command)
-            where TCommand : ICommand
-            where TResult : IResult
+        async Task<TResult> IAsyncCommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
         {
             var handlers = Locator.GetAllServices<IAsyncCommandHandler<TCommand, TResult>>().ToArray();
             Validate(handlers.Count(), command);
@@ -67,8 +61,7 @@ namespace Cheers.Cqrs.InMemory
         /// Dispatch a command asynchronously.
         /// </summary>
         /// <param name="command">Command to dispatch</param>
-        public async Task DispatchAsync<TCommand>(TCommand command)
-            where TCommand : ICommand
+        async Task IAsyncCommandDispatcher.Dispatch<TCommand>(TCommand command)
         {
             var handlers = Locator.GetAllServices<IAsyncCommandHandler<TCommand>>().ToArray();
             Validate(handlers.Count(), command);

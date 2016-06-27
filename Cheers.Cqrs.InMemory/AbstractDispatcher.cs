@@ -1,6 +1,4 @@
 ﻿using Cheers.ServiceLocator;
-using System.Collections;
-using System.Linq;
 using Cheers.Cqrs.InMemory.Exceptions;
 
 namespace Cheers.Cqrs.InMemory
@@ -13,7 +11,7 @@ namespace Cheers.Cqrs.InMemory
         protected ILocator Locator { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cheers.Cqrs.InMemory.Dispatcher"/> class.
+        /// Initializes a new instance of the Dispatcher class.
         /// </summary>
         /// <param name="locator">Locator.</param>
         protected AbstractDispatcher(ILocator locator)
