@@ -5,7 +5,7 @@ Cheers in memory CQRS implementations
 
 
 ## Documentation
-The documentation can be find [Here](https://github.com/Cheers/Cheers/wiki)
+The documentation can be find [Here](https://cheers.github.io/doc/)
 
 
 ## Contributing
