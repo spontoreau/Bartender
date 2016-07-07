@@ -1,9 +1,9 @@
 ﻿namespace Cheers.Cqrs
 {
     /// <summary>
-    /// Define a dispatchable object
+    /// Define a message
     /// </summary>
-    public interface IDispatchable
+    public interface IMessage
     {
     }
 }

@@ -40,7 +40,7 @@
     <Compile Include="Write\ICommandDispatcher.cs" />
     <Compile Include="Write\ICommandHandler.cs" />
     <Compile Include="Write\IResult.cs" />
-    <Compile Include="IDispatchable.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="Read\IAsyncQueryHandler.cs" />
     <Compile Include="Write\IAsyncCommandHandler.cs" />
     <Compile Include="Read\IAsyncQueryDispatcher.cs" />
