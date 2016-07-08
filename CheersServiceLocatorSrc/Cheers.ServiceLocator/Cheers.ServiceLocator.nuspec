@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cheers.ServiceLocator</id>
+    <version>1.0.1</version>
+    <title>Cheers.ServiceLocator</title>
+    <authors>Cheers</authors>
+    <owners>Cheers</owners>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Cheers/cheers.github.io/master/cheers.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cheers ServiceLocator contracts</description>
+    <copyright>Copyright 2016 Cheers</copyright>
+    <tags>Cheers ServiceLocator</tags>
+  </metadata>
+  <files>
+  	<file src="bin\Release\Cheers.ServiceLocator.dll" target="lib\portable-net45+netcore45+wpa81" />
+  </files>
+</package>
