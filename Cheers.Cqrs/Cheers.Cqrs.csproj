@@ -47,6 +47,10 @@
     <Compile Include="Write\IAsyncCommandDispatcher.cs" />
     <Compile Include="IMessageValidator.cs" />
     <Compile Include="ICqrsError.cs" />
+    <Compile Include="Read\ICancellableAsyncQueryHandler.cs" />
+    <Compile Include="Read\ICancellableAsyncQueryDispatcher.cs" />
+    <Compile Include="Write\ICancellableAsyncCommandHandler.cs" />
+    <Compile Include="Write\ICancellableAsyncCommandDispatcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
