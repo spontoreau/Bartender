@@ -5,20 +5,18 @@ namespace Bartender
     /// <summary>
     /// Define a dependency container
     /// </summary>
-    public interface ILocator
+    public interface IDependencyContainer
     {
         /// <summary>
-        /// Gets a service.
+        /// Gets an instance.
         /// </summary>
-        /// <returns>The service.</returns>
-        /// <typeparam name="TService">The 1st type parameter.</typeparam>
-        TService GetService<TService>() where TService : class;
+        /// <returns>Instance corresponding to a T type.</returns>
+        T GetInstance<T>() where T : class;
 
         /// <summary>
-        /// Gets all services.
+        /// Gets all instances.
         /// </summary>
-        /// <returns>The all services.</returns>
-        /// <typeparam name="TService">The 1st type parameter.</typeparam>
-        IEnumerable<TService> GetAllServices<TService>() where TService : class;
+        /// <returns>All instances corresponding to a T type.</returns>
+        IEnumerable<T> GetAllInstances<T>() where T : class;
     }
 }
