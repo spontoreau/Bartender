@@ -7,8 +7,6 @@ namespace Cheers.Cqrs.Read
     /// <summary>
     /// Define a cancellable asynchronous query handler.
     /// </summary>
-    /// <typeparam name="TQuery">Query type</typeparam>
-    /// <typeparam name="TReadModel">ReadModel type</typeparam>
     public interface ICancellableAsyncQueryHandler<TQuery, TReadModel>
         where TQuery : IQuery
         where TReadModel : IReadModel
