@@ -6,8 +6,6 @@ namespace Cheers.Cqrs.Read
     /// <summary>
     /// Define an asynchronous query handler
     /// </summary>
-    /// <typeparam name="TQuery">Query type</typeparam>
-    /// <typeparam name="TReadModel">ReadModel type</typeparam>
     public interface IAsyncQueryHandler<TQuery, TReadModel> 
         where TQuery : IQuery
         where TReadModel : IReadModel
