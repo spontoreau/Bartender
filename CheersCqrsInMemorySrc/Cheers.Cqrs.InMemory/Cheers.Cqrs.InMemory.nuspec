@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cheers.Cqrs.InMemory</id>
+    <version>1.3.1</version>
+    <title>Cheers.Cqrs.InMemory</title>
+    <authors>Cheers</authors>
+    <owners>Cheers</owners>
+    <licenseUrl>https://github.com/Cheers/Cheers/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Cheers/Cheers</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Cheers/cheers.github.io/master/cheers.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cheers CQRS InMemory</description>
+    <copyright>Copyright 2016 Cheers</copyright>
+    <tags>Cheers CQRS InMemory</tags>
+    <dependencies>
+      <dependency id="Cheers.ServiceLocator" version="1.0.1" />
+      <dependency id="Cheers.Cqrs" version="1.3.0" />
+    </dependencies>
+  </metadata>
+  <files>
+  	<file src="bin\Release\Cheers.Cqrs.InMemory.dll" target="lib\portable-net45+netcore45+wpa81" />
+  </files>
+</package>
