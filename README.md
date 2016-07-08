@@ -2,7 +2,7 @@
 
 ## Introduction
 
-** /!\ Don't use in this repository code in your application. The code need to be refactor and a Nuget package with be available soon **
+**/!\ Don't use in this repository code in your application. The code need to be refactor and a Nuget package with be available soon**
 
 Bartender is a fusion of the 3 [Cheers](https://github.com/Cheers/Cheers) packages :
   * [Cheers.Cqrs](https://github.com/Cheers/Cheers.Cqrs)
