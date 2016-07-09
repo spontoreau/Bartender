@@ -12,7 +12,7 @@ namespace Bartender
         /// Handle a command
         /// </summary>
         /// <param name="command">Command to handle</param>
-        Task Handle(TCommand command);
+        Task HandleAsync(TCommand command);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ namespace Bartender
         /// </summary>
         /// <param name="command">Command to handle</param>
         /// <returns>Command result</returns>
-        Task<TResult> Handle(TCommand command);
+        Task<TResult> HandleAsync(TCommand command);
     }
 }
 

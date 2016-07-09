@@ -14,7 +14,7 @@ namespace Bartender
         /// </summary>
         /// <param name="command">Command to handle</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        Task Handle(TCommand command, CancellationToken cancellationToken);
+        Task HandleAsync(TCommand command, CancellationToken cancellationToken);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace Bartender
         /// <param name="command">Command to handle</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Command result</returns>
-        Task<TResult> Handle(TCommand command, CancellationToken cancellationToken);
+        Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken);
     }
 }
 

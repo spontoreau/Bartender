@@ -14,7 +14,7 @@ namespace Bartender
         /// <param name="command">Command to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Result</returns>
-        Task<TResult> Dispatch<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
+        Task<TResult> DispatchAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
             where TCommand : ICommand;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Bartender
         /// </summary>
         /// <param name="command">Command to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        Task Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+        Task DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
             where TCommand : ICommand;
     }
 }

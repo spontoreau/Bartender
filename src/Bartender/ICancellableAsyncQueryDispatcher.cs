@@ -14,7 +14,7 @@ namespace Bartender
         /// </summary>
         /// <param name="query">Query to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        Task<TReadModel> Dispatch<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
+        Task<TReadModel> DispatchAsync<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
             where TQuery : IQuery;
     }
 }
