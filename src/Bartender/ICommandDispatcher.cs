@@ -1,4 +1,4 @@
-﻿namespace Cheers.Cqrs.Write
+﻿namespace Bartender
 {
     /// <summary>
     /// Define a command dispatcher
@@ -11,8 +11,7 @@
         /// <param name="command">Command to dispatch</param>
         /// <returns>Result</returns>
         TResult Dispatch<TCommand, TResult>(TCommand command) 
-            where TCommand : ICommand
-            where TResult : IResult;
+            where TCommand : ICommand;
 
         /// <summary>
         /// Dispatch the specified command.
