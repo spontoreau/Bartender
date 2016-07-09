@@ -1,30 +1,18 @@
 {
-  "version": "1.0.0",
-  "authors": [
-    "Sylvain PONTOREAU"  
-  ],
-  "description": "CQRS pattern inside",
-  "packOptions": {
-    "tags": [
-      "CQRS"
-    ],
-    "licenseUrl": "https://github.com/Vtek/Bartender/blob/master/LICENSE",
-    "projectUrl": "https://github.com/Vtek/Bartender",
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/Vtek/Bartender"
+  "version": "1.0.0-*",
+    "testRunner": "xunit",
+    "dependencies": {
+        "xunit": "2.2.0-beta2-build3300",
+        "dotnet-test-xunit": "2.2.0-preview2-build1029"
     },
-    "owners": [
-      "Vtek"
-    ],
-    "requireLicenseAcceptance": false
-  },
-  "frameworks": {
-    "net45": {},
-    "netcoreapp1.1": {
-      "dependencies": {
-        "NETStandard.Library": "1.6.0"
-      }
+    "frameworks": {
+        "netcoreapp1.0": {
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.0.0"
+                }
+            }
+        }
     }
-  }
 }
