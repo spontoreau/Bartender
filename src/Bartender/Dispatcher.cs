@@ -8,7 +8,7 @@ namespace Bartender
         /// <summary>
         /// Dependency container.
         /// </summary>
-        private IDependencyContainer Container { get; }
+        public IDependencyContainer Container { get; }
 
         /// <summary>
         /// Initializes a new instance of the Dispatcher class.
