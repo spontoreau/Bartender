@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,23 +29,31 @@ namespace Bartender
         /// <param name="query">Query.</param>
         /// <returns>ReadModel</returns>
         TReadModel IQueryDispatcher.Dispatch<TQuery, TReadModel>(TQuery query)
-        {
-            var handlers = Container.GetAllInstances<IQueryHandler<TQuery, TReadModel>>();
-
-            if(!handlers.Any()) throw new DispatcherException($"No handler for '{typeof(TQuery)}'.");
-            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{typeof(TQuery)}'.");
-
-            return handlers.Single().Handle(query);
-        }
+            => 
+                GetHandler<IQueryHandler<TQuery, TReadModel>>()
+                    .Single()
+                    .Handle(query);
 
         /// <summary>
         /// Dispatch a query asynchronously.
         /// </summary>
         /// <param name="query">Query to dispatch</param>
         async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
+            => 
+                await GetHandler<IAsyncQueryHandler<TQuery, TReadModel>>()
+                        .Single()
+                        .HandleAsync(query);
+
+        IEnumerable<THandler> GetHandler<THandler>()
         {
-            var handlers = Container.GetAllInstances<IAsyncQueryHandler<TQuery, TReadModel>>();
-            return await handlers.Single().HandleAsync(query);
+            var handlers = Container.GetAllInstances<THandler>();
+
+            var messageType = typeof(THandler).GenericTypeArguments[0].FullName;
+
+            if(!handlers.Any()) throw new DispatcherException($"No handler for '{messageType}'.");
+            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType}'.");
+
+            return handlers;
         }
     }
 }
