@@ -1,13 +1,14 @@
+using Bartender.Test.Context;
 using Moq;
 using Xunit;
+using Shouldly;
 
 namespace Bartender.Test
 {
     public class QueryDispatchTests
     {
-        public class Query : IQuery { public string Value { get; set; } }
-        public class ReadModel { public string Value { get; set; } }
-
+        private Query Query { get; } = Query.New();
+        private ReadModel ReadModel { get; } = ReadModel.New();
         private Mock<IDependencyContainer> MockedDependencyContainer { get; }
         private Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; }
         private IQueryDispatcher QueryDispatcher { get; }
@@ -24,8 +25,8 @@ namespace Bartender.Test
 
             MockedQueryHandler = new Mock<IQueryHandler<Query, ReadModel>>();
             MockedQueryHandler
-                .Setup(method => method.Handle(It.IsAny<Query>()))
-                .Returns(It.IsAny<ReadModel>);
+                .Setup(method => method.Handle(Query))
+                .Returns(ReadModel);
 
             QueryDispatcher = (IQueryDispatcher)new Dispatcher(MockedDependencyContainer.Object);
         }
@@ -33,8 +34,15 @@ namespace Bartender.Test
         [Fact]
         public void ShouldHandleQueryOnce_WhenCallDispatchMethod()
         {
-            QueryDispatcher.Dispatch<Query, ReadModel>(new Query());
+            QueryDispatcher.Dispatch<Query, ReadModel>(Query);
             MockedQueryHandler.Verify(x => x.Handle(It.IsAny<Query>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldReturnReadModel_WhenCallDispatchMethod()
+        {
+            var readModel = QueryDispatcher.Dispatch<Query, ReadModel>(Query);
+            readModel.ShouldBeSameAs(ReadModel);
         }
     }
 }
