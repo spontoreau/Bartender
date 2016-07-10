@@ -29,8 +29,11 @@ namespace Bartender
         /// <returns>ReadModel</returns>
         TReadModel IQueryDispatcher.Dispatch<TQuery, TReadModel>(TQuery query)
         {
-            var handlers = Container.GetAllInstances<IQueryHandler<TQuery, TReadModel>>().Single();
-            return handlers.Handle(query);
+            var handlers = Container.GetAllInstances<IQueryHandler<TQuery, TReadModel>>();
+
+            if(!handlers.Any()) throw new DispatcherException($"No handler for '{typeof(TQuery)}'.");
+
+            return handlers.Single().Handle(query);
         }
     }
 }

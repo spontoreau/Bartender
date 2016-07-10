@@ -12,6 +12,7 @@ namespace Bartender.Test
         private Mock<IDependencyContainer> MockedDependencyContainer { get; }
         private Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; }
         private IQueryDispatcher QueryDispatcher { get; }
+        readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
 
         public QueryDispatchTests()
         {
@@ -43,6 +44,19 @@ namespace Bartender.Test
         {
             var readModel = QueryDispatcher.Dispatch<Query, ReadModel>(Query);
             readModel.ShouldBeSameAs(ReadModel);
+        }
+
+        [Fact]
+        public void ShouldThrowException_WhenNoQueryHandler()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
+                .Returns(() => new IQueryHandler<Query, ReadModel>[0]);
+
+            Should
+                .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query))
+                .Message
+                .ShouldBe(NoHandlerExceptionMessageExpected);
         }
     }
 }
