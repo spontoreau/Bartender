@@ -12,8 +12,8 @@ namespace Bartender.Test
         private Mock<IDependencyContainer> MockedDependencyContainer { get; }
         private Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; }
         private IQueryDispatcher QueryDispatcher { get; }
-        readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
-        readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
+        private readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
+        private readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
 
         public QueryDispatchTests()
         {
