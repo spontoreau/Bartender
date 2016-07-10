@@ -38,17 +38,22 @@ namespace Bartender
         /// Dispatch a query asynchronously.
         /// </summary>
         /// <param name="query">Query to dispatch</param>
+        /// <returns>ReadModel</returns>
         async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
             => 
                 await GetHandler<IAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query);
 
+        /// <summary>
+        /// Get handler
+        /// </summary>
+        /// <returns>Enumerable of handlers</returns>
         IEnumerable<THandler> GetHandler<THandler>()
         {
             var handlers = Container.GetAllInstances<THandler>();
 
-            var messageType = typeof(THandler).GenericTypeArguments[0].FullName;
+            var messageType = typeof(THandler).GenericTypeArguments.First().FullName;
 
             if(!handlers.Any()) throw new DispatcherException($"No handler for '{messageType}'.");
             if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType}'.");
