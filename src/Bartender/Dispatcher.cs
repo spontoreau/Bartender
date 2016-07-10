@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bartender
 {
     /// <summary>
     /// Dispatcher.
     /// </summary>
-    public class Dispatcher : IQueryDispatcher
+    public class Dispatcher : IQueryDispatcher, IAsyncQueryDispatcher
     {
         /// <summary>
         /// Dependency container.
@@ -35,6 +36,16 @@ namespace Bartender
             if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{typeof(TQuery)}'.");
 
             return handlers.Single().Handle(query);
+        }
+
+        /// <summary>
+        /// Dispatch a query asynchronously.
+        /// </summary>
+        /// <param name="query">Query to dispatch</param>
+        async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
+        {
+            var handlers = Container.GetAllInstances<IAsyncQueryHandler<TQuery, TReadModel>>();
+            return await handlers.Single().HandleAsync(query);
         }
     }
 }
