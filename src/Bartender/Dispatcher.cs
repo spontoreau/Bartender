@@ -32,6 +32,7 @@ namespace Bartender
             var handlers = Container.GetAllInstances<IQueryHandler<TQuery, TReadModel>>();
 
             if(!handlers.Any()) throw new DispatcherException($"No handler for '{typeof(TQuery)}'.");
+            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{typeof(TQuery)}'.");
 
             return handlers.Single().Handle(query);
         }

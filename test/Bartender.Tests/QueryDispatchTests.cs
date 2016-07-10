@@ -13,6 +13,7 @@ namespace Bartender.Test
         private Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; }
         private IQueryDispatcher QueryDispatcher { get; }
         readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
+        readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
 
         public QueryDispatchTests()
         {
@@ -57,6 +58,19 @@ namespace Bartender.Test
                 .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query))
                 .Message
                 .ShouldBe(NoHandlerExceptionMessageExpected);
+        }
+
+        [Fact]
+        public void ShouldThrowException_WhenMultipleQueryHandler()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
+                .Returns(() => new [] { MockedQueryHandler.Object, MockedQueryHandler.Object });
+
+            Should
+                .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query))
+                .Message
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
         }
     }
 }
