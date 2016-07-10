@@ -5,7 +5,7 @@ using Shouldly;
 
 namespace Bartender.Test
 {
-    public class QueryDispatchTests
+    public class QueryDispatcherTests
     {
         private Query Query { get; } = Query.New();
         private ReadModel ReadModel { get; } = ReadModel.New();
@@ -15,7 +15,7 @@ namespace Bartender.Test
         private readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
         private readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
 
-        public QueryDispatchTests()
+        public QueryDispatcherTests()
         {
             MockedDependencyContainer = new Mock<IDependencyContainer>();
             MockedDependencyContainer
