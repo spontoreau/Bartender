@@ -31,7 +31,7 @@ namespace Bartender.Tests
             Should
                 .Throw<DispatcherException>(async () => await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken))
                 .Message
-                .ShouldBe(NoHandlerExceptionMessageExpected);
+                .ShouldBe(NoQueryHandlerExceptionMessageExpected);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Bartender.Tests
             Should
                 .Throw<DispatcherException>(async () => await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken))
                 .Message
-                .ShouldBe(MultipleHandlerExceptionMessageExpected);
+                .ShouldBe(MultipleQueryHandlerExceptionMessageExpected);
         }
     }
 }

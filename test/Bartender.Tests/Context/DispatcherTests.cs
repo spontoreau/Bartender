@@ -21,9 +21,10 @@ namespace Bartender.Tests.Context
         protected IAsyncQueryDispatcher AsyncQueryDispatcher { get; private set; }
         protected ICancellableAsyncQueryDispatcher CancellableAsyncQueryDispatcher { get; private set; }
         protected ICommandDispatcher CommandDispatcher { get; private set; }
-        protected readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
-        protected readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
-        
+        protected readonly string NoQueryHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
+        protected readonly string MultipleQueryHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
+        protected readonly string NoCommandHandlerExceptionMessageExpected = $"No handler for '{typeof(Command)}'.";
+
         protected DispatcherTests()
         {
             MockedDependencyContainer = new Mock<IDependencyContainer>();
