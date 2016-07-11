@@ -5,6 +5,6 @@ namespace Bartender
     /// </summary>
     public interface IPublish 
     {
-
+        
     }
 }
