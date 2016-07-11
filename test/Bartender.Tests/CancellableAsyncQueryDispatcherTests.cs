@@ -1,4 +1,4 @@
-using Bartender.Test.Context;
+using Bartender.Tests.Context;
 using Moq;
 using Xunit;
 

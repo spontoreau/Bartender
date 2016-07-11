@@ -1,11 +1,7 @@
-using System;
-
-namespace Bartender.Test.Context
+namespace Bartender.Tests.Context
 {
-    public class ReadModel 
+    public class ReadModel : AbstractValue, IValue
     { 
-        public string Value { get; set; }
 
-        public static ReadModel New() => new ReadModel { Value = Guid.NewGuid().ToString() };
     }
 }

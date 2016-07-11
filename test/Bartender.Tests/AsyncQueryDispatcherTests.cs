@@ -1,9 +1,9 @@
-using Bartender.Test.Context;
+using Bartender.Tests.Context;
 using Moq;
 using Xunit;
 using Shouldly;
 
-namespace Bartender.Test
+namespace Bartender.Tests
 {
     public class AsyncQueryDispatcherTest : DispatcherTests
     {

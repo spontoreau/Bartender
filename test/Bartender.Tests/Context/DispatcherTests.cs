@@ -2,12 +2,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 
-namespace Bartender.Test.Context
+namespace Bartender.Tests.Context
 {
     public abstract class DispatcherTests
     {
-        protected Query Query { get; } = Query.New();
-        protected ReadModel ReadModel { get; } = ReadModel.New();
+        protected Query Query { get; } = ContextFactory.Get<Query>();
+        protected ReadModel ReadModel { get; } = ContextFactory.Get<ReadModel>();
+        protected Command Command { get; } = ContextFactory.Get<Command>();
+        protected Result Result { get; } = ContextFactory.Get<Result>();
         protected CancellationToken CancellationToken { get; } = CancellationToken.None;
         protected Mock<IDependencyContainer> MockedDependencyContainer { get; private set; }
         protected Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; private set; }

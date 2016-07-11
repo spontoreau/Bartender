@@ -1,11 +1,6 @@
-using System;
-
-namespace Bartender.Test.Context
+namespace Bartender.Tests.Context
 {
-    public class Query : IQuery 
+    public class Query : AbstractValue, IQuery
     { 
-        public string Value { get; set; }
-
-        public static Query New() => new Query { Value = Guid.NewGuid().ToString() };
     }
 }
