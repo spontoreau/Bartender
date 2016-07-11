@@ -15,22 +15,29 @@ namespace Bartender.Tests.Context
         protected Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; private set; }
         protected Mock<IAsyncQueryHandler<Query, ReadModel>> MockedAsyncQueryHandler { get; private set; }
         protected Mock<ICancellableAsyncQueryHandler<Query, ReadModel>> MockedCancellableAsyncQueryHandler { get; private set; }
+        protected Mock<ICommandHandler<Command, Result>> MockedCommandHandler { get; private set; }
+        protected Mock<ICommandHandler<Command>> MockedCommandWithoutResultHandler { get; private set; }
         protected IQueryDispatcher QueryDispatcher { get; private set; }
         protected IAsyncQueryDispatcher AsyncQueryDispatcher { get; private set; }
         protected ICancellableAsyncQueryDispatcher CancellableAsyncQueryDispatcher { get; private set; }
+        protected ICommandDispatcher CommandDispatcher { get; private set; }
         protected readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
         protected readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
         
         protected DispatcherTests()
         {
-            InitializeDependencyContainer();
-            InitializeHandlers();
+            MockedDependencyContainer = new Mock<IDependencyContainer>();
+
+            InitializeQueryDependencies();
+            InitializeCommandDependencies();
+            InitializeQueryHandlers();
+            InitializeCommandHandlers();
             InitializeDispatchers();
         }
 
-        private void InitializeDependencyContainer()
+        private void InitializeQueryDependencies()
         {
-            MockedDependencyContainer = new Mock<IDependencyContainer>();
+            //Query
             MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
                 .Returns(() => new[] { MockedQueryHandler.Object });
@@ -49,10 +56,26 @@ namespace Bartender.Tests.Context
             MockedDependencyContainer
                 .Setup(method => method.GetInstance<ICancellableAsyncQueryHandler<Query, ReadModel>>())
                 .Returns(() => MockedCancellableAsyncQueryHandler.Object);
-
         }
 
-        private void InitializeHandlers()
+        private void InitializeCommandDependencies()
+        {
+            //Command
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
+                .Returns(() => new[] { MockedCommandHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetInstance<ICommandHandler<Command, Result>>())
+                .Returns(() => MockedCommandHandler.Object);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
+                .Returns(() => new[] { MockedCommandWithoutResultHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetInstance<ICommandHandler<Command>>())
+                .Returns(() => MockedCommandWithoutResultHandler.Object);
+        }
+
+        private void InitializeQueryHandlers()
         {
             MockedQueryHandler = new Mock<IQueryHandler<Query, ReadModel>>();
             MockedQueryHandler
@@ -70,12 +93,24 @@ namespace Bartender.Tests.Context
                 .Returns(Task.FromResult(ReadModel));
         }
 
+        private void InitializeCommandHandlers()
+        {
+            MockedCommandHandler = new Mock<ICommandHandler<Command, Result>>();
+            MockedCommandHandler
+                .Setup(method => method.Handle(Command))
+                .Returns(Result);
+            MockedCommandWithoutResultHandler = new Mock<ICommandHandler<Command>>();
+            MockedCommandWithoutResultHandler
+                .Setup(method => method.Handle(Command));
+        }
+
         private void InitializeDispatchers()
         {
             var dispatcher = new Dispatcher(MockedDependencyContainer.Object);
             QueryDispatcher = (IQueryDispatcher)dispatcher;
             AsyncQueryDispatcher = (IAsyncQueryDispatcher)dispatcher;
             CancellableAsyncQueryDispatcher = (ICancellableAsyncQueryDispatcher)dispatcher;
+            CommandDispatcher = (ICommandDispatcher)dispatcher;
         }
     }
 }

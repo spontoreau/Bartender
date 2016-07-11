@@ -9,7 +9,10 @@ namespace Bartender
     /// <summary>
     /// Dispatcher.
     /// </summary>
-    public class Dispatcher : IQueryDispatcher, IAsyncQueryDispatcher, ICancellableAsyncQueryDispatcher
+    public class Dispatcher : IQueryDispatcher, 
+                              IAsyncQueryDispatcher, 
+                              ICancellableAsyncQueryDispatcher,
+                              ICommandDispatcher
     {
         /// <summary>
         /// Dependency container.
@@ -57,6 +60,27 @@ namespace Bartender
                 await GetHandler<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query, cancellationToken);
+
+        /// <summary>
+        /// Dispatch a command
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        /// <returns>Result</returns>
+        TResult ICommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
+            =>
+                GetHandler<ICommandHandler<TCommand, TResult>>()
+                    .Single()
+                    .Handle(command);
+
+        /// <summary>
+        /// Dispatch the specified command.
+        /// </summary>
+        /// <param name="command">Command.</param>
+        void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
+            =>
+                GetHandler<ICommandHandler<TCommand>>()
+                    .Single()
+                    .Handle(command);
 
         /// <summary>
         /// Get handler
