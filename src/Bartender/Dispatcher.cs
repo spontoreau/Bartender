@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bartender
@@ -7,7 +9,7 @@ namespace Bartender
     /// <summary>
     /// Dispatcher.
     /// </summary>
-    public class Dispatcher : IQueryDispatcher, IAsyncQueryDispatcher
+    public class Dispatcher : IQueryDispatcher, IAsyncQueryDispatcher, ICancellableAsyncQueryDispatcher
     {
         /// <summary>
         /// Dependency container.
@@ -33,7 +35,7 @@ namespace Bartender
                 GetHandler<IQueryHandler<TQuery, TReadModel>>()
                     .Single()
                     .Handle(query);
-
+        
         /// <summary>
         /// Dispatch a query asynchronously.
         /// </summary>
@@ -44,6 +46,17 @@ namespace Bartender
                 await GetHandler<IAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query);
+
+        /// <summary>
+        /// Dispatch a query asynchronously.
+        /// </summary>
+        /// <param name="query">Query to dispatch</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        async Task<TReadModel> ICancellableAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
+            =>
+                await GetHandler<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
+                        .Single()
+                        .HandleAsync(query, cancellationToken);
 
         /// <summary>
         /// Get handler
