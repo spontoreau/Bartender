@@ -24,6 +24,7 @@ namespace Bartender.Tests.Context
         protected readonly string NoQueryHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
         protected readonly string MultipleQueryHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
         protected readonly string NoCommandHandlerExceptionMessageExpected = $"No handler for '{typeof(Command)}'.";
+        protected readonly string MultipleCommandHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Command)}'.";
 
         protected DispatcherTests()
         {

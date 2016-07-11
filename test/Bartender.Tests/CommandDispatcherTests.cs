@@ -52,5 +52,31 @@ namespace Bartender.Tests.Context
                 .Message
                 .ShouldBe(NoCommandHandlerExceptionMessageExpected);
         }
+
+        [Fact]
+        public void ShouldThrowException_WhenMultipleCommandHandler()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
+                .Returns(() => new [] { MockedCommandHandler.Object, MockedCommandHandler.Object });
+
+            Should
+                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch<Command, Result>(Command))
+                .Message
+                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
+        }
+
+        [Fact]
+        public void ShouldThrowException_WhenMultipleCommandWithoutResultHandler()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
+                .Returns(() => new [] { MockedCommandWithoutResultHandler.Object, MockedCommandWithoutResultHandler.Object });
+
+            Should
+                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch<Command>(Command))
+                .Message
+                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
+        }
     }
 }
