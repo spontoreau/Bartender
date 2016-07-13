@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Bartender
+﻿namespace Bartender
 {
     /// <summary>
     /// Define a query dispatcher
