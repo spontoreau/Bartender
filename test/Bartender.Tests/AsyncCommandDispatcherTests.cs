@@ -1,5 +1,6 @@
 using Bartender.Tests.Context;
 using Moq;
+using Shouldly;
 using Xunit;
 
 namespace Bartender.Tests
@@ -18,6 +19,13 @@ namespace Bartender.Tests
         {
             await AsyncCommandDispatcher.DispatchAsync<Command>(Command);
             MockedAsyncCommandWithoutResultHandler.Verify(x => x.HandleAsync(It.IsAny<Command>()), Times.Once);
+        }
+
+        [Fact]
+        public async void ShouldReturnResult_WhenCallDispatchMethod()
+        {
+            var result = await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command);
+            result.ShouldBeSameAs(Result);
         }
     }
 }
