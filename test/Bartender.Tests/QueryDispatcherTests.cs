@@ -11,7 +11,7 @@ namespace Bartender.Tests
         public void ShouldHandleQueryOnce_WhenCallDispatchMethod()
         {
             QueryDispatcher.Dispatch<Query, ReadModel>(Query);
-            MockedQueryHandler.Verify(x => x.Handle(It.IsAny<Query>()), Times.Once);
+            MockedQueryHandler.Verify(x => x.Handle(Query), Times.Once);
         }
 
         [Fact]

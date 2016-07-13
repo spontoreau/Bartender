@@ -11,7 +11,7 @@ namespace Bartender.Tests
         public async void ShouldHandleQueryOnce_WhenCallDispatchAsyncMethod()
         {
             await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken);
-            MockedCancellableAsyncQueryHandler.Verify(x => x.HandleAsync(It.IsAny<Query>(), CancellationToken), Times.Once);
+            MockedCancellableAsyncQueryHandler.Verify(x => x.HandleAsync(Query, CancellationToken), Times.Once);
         }
 
         [Fact]

@@ -10,14 +10,14 @@ namespace Bartender.Tests.Context
         public void ShouldHandleCommandOnce_WhenCallDispatchMethod()
         {
             CommandDispatcher.Dispatch<Command, Result>(Command);
-            MockedCommandHandler.Verify(x => x.Handle(It.IsAny<Command>()), Times.Once);
+            MockedCommandHandler.Verify(x => x.Handle(Command), Times.Once);
         }
 
         [Fact]
         public void ShouldHandleCommandOnce_WhenCallDispatchMethodWithoutResult()
         {
             CommandDispatcher.Dispatch<Command>(Command);
-            MockedCommandWithoutResultHandler.Verify(x => x.Handle(It.IsAny<Command>()), Times.Once);
+            MockedCommandWithoutResultHandler.Verify(x => x.Handle(Command), Times.Once);
         }
 
         [Fact]

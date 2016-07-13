@@ -11,14 +11,14 @@ namespace Bartender.Tests
         public async void ShouldHandleCommandOnce_WhenCallDispatchAsyncMethod()
         {
             await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command);
-            MockedAsyncCommandHandler.Verify(x => x.HandleAsync(It.IsAny<Command>()), Times.Once);
+            MockedAsyncCommandHandler.Verify(x => x.HandleAsync(Command), Times.Once);
         }
 
         [Fact]
         public async void ShouldHandleCommandOnce_WhenCallDispatchAsyncMethodWithoutResult()
         {
             await AsyncCommandDispatcher.DispatchAsync<Command>(Command);
-            MockedAsyncCommandWithoutResultHandler.Verify(x => x.HandleAsync(It.IsAny<Command>()), Times.Once);
+            MockedAsyncCommandWithoutResultHandler.Verify(x => x.HandleAsync(Command), Times.Once);
         }
 
         [Fact]

@@ -1,5 +1,4 @@
 using Bartender.Tests.Context;
-using Moq;
 using Shouldly;
 using Xunit;
 

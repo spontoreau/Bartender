@@ -1,7 +1,7 @@
 using Bartender.Tests.Context;
-using Moq;
 using Xunit;
 using Shouldly;
+using Moq;
 
 namespace Bartender.Tests
 {
@@ -11,7 +11,7 @@ namespace Bartender.Tests
         public async void ShouldHandleQueryOnce_WhenCallDispatchAsyncMethod()
         {
             await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query);
-            MockedAsyncQueryHandler.Verify(x => x.HandleAsync(It.IsAny<Query>()), Times.Once);
+            MockedAsyncQueryHandler.Verify(x => x.HandleAsync(Query), Times.Once);
         }
 
         [Fact]
