@@ -12,7 +12,8 @@ namespace Bartender
     public class Dispatcher : IQueryDispatcher, 
                               IAsyncQueryDispatcher, 
                               ICancellableAsyncQueryDispatcher,
-                              ICommandDispatcher
+                              ICommandDispatcher,
+                              IAsyncCommandDispatcher
     {
         /// <summary>
         /// Dependency container.
@@ -81,6 +82,28 @@ namespace Bartender
                 GetHandler<ICommandHandler<TCommand>>()
                     .Single()
                     .Handle(command);
+
+        /// <summary>
+        /// Dispatch a command asynchronously.
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        /// <returns>Result</returns>
+        Task<TResult> IAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command)
+            => 
+                GetHandler<IAsyncCommandHandler<TCommand, TResult>>()
+                    .Single()
+                    .HandleAsync(command);
+            
+
+        /// <summary>
+        /// Dispatch a command asynchronously.
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        Task IAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command)
+            =>
+                GetHandler<IAsyncCommandHandler<TCommand>>()
+                    .Single()
+                    .HandleAsync(command);
 
         /// <summary>
         /// Get handler

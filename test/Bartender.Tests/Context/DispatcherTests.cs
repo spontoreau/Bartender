@@ -17,10 +17,13 @@ namespace Bartender.Tests.Context
         protected Mock<ICancellableAsyncQueryHandler<Query, ReadModel>> MockedCancellableAsyncQueryHandler { get; private set; }
         protected Mock<ICommandHandler<Command, Result>> MockedCommandHandler { get; private set; }
         protected Mock<ICommandHandler<Command>> MockedCommandWithoutResultHandler { get; private set; }
+        protected Mock<IAsyncCommandHandler<Command, Result>> MockedAsyncCommandHandler { get; private set; }
+        protected Mock<IAsyncCommandHandler<Command>> MockedAsyncCommandWithoutResultHandler { get; private set; }
         protected IQueryDispatcher QueryDispatcher { get; private set; }
         protected IAsyncQueryDispatcher AsyncQueryDispatcher { get; private set; }
         protected ICancellableAsyncQueryDispatcher CancellableAsyncQueryDispatcher { get; private set; }
         protected ICommandDispatcher CommandDispatcher { get; private set; }
+        protected IAsyncCommandDispatcher AsyncCommandDispatcher { get; private set; }
         protected readonly string NoQueryHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
         protected readonly string MultipleQueryHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
         protected readonly string NoCommandHandlerExceptionMessageExpected = $"No handler for '{typeof(Command)}'.";
@@ -75,6 +78,18 @@ namespace Bartender.Tests.Context
             MockedDependencyContainer
                 .Setup(method => method.GetInstance<ICommandHandler<Command>>())
                 .Returns(() => MockedCommandWithoutResultHandler.Object);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command, Result>>())
+                .Returns(() => new[] { MockedAsyncCommandHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetInstance<IAsyncCommandHandler<Command, Result>>())
+                .Returns(() => MockedAsyncCommandHandler.Object);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command>>())
+                .Returns(() => new[] { MockedAsyncCommandWithoutResultHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetInstance<IAsyncCommandHandler<Command>>())
+                .Returns(() => MockedAsyncCommandWithoutResultHandler.Object);
         }
 
         private void InitializeQueryHandlers()
@@ -104,6 +119,11 @@ namespace Bartender.Tests.Context
             MockedCommandWithoutResultHandler = new Mock<ICommandHandler<Command>>();
             MockedCommandWithoutResultHandler
                 .Setup(method => method.Handle(Command));
+            MockedAsyncCommandHandler = new Mock<IAsyncCommandHandler<Command, Result>>();
+            MockedAsyncCommandHandler
+                .Setup(method => method.HandleAsync(Command))
+                .Returns(Task.FromResult(Result));
+            MockedAsyncCommandWithoutResultHandler = new Mock<IAsyncCommandHandler<Command>>();
         }
 
         private void InitializeDispatchers()
@@ -113,6 +133,7 @@ namespace Bartender.Tests.Context
             AsyncQueryDispatcher = (IAsyncQueryDispatcher)dispatcher;
             CancellableAsyncQueryDispatcher = (ICancellableAsyncQueryDispatcher)dispatcher;
             CommandDispatcher = (ICommandDispatcher)dispatcher;
+            AsyncCommandDispatcher = (IAsyncCommandDispatcher)dispatcher;
         }
     }
 }
