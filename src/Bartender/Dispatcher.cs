@@ -18,7 +18,7 @@ namespace Bartender
         /// <summary>
         /// Dependency container.
         /// </summary>
-        public IDependencyContainer Container { get; }
+        protected IDependencyContainer Container { get; }
 
         /// <summary>
         /// Initializes a new instance of the Dispatcher class.
@@ -36,7 +36,7 @@ namespace Bartender
         /// <returns>ReadModel</returns>
         TReadModel IQueryDispatcher.Dispatch<TQuery, TReadModel>(TQuery query)
             => 
-                GetHandler<IQueryHandler<TQuery, TReadModel>>()
+                GetHandlers<IQueryHandler<TQuery, TReadModel>>()
                     .Single()
                     .Handle(query);
         
@@ -47,7 +47,7 @@ namespace Bartender
         /// <returns>ReadModel</returns>
         async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
             => 
-                await GetHandler<IAsyncQueryHandler<TQuery, TReadModel>>()
+                await GetHandlers<IAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query);
 
@@ -58,7 +58,7 @@ namespace Bartender
         /// <param name="cancellationToken">Cancellation token</param>
         async Task<TReadModel> ICancellableAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
             =>
-                await GetHandler<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
+                await GetHandlers<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query, cancellationToken);
 
@@ -69,7 +69,7 @@ namespace Bartender
         /// <returns>Result</returns>
         TResult ICommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
             =>
-                GetHandler<ICommandHandler<TCommand, TResult>>()
+                GetHandlers<ICommandHandler<TCommand, TResult>>()
                     .Single()
                     .Handle(command);
 
@@ -79,7 +79,7 @@ namespace Bartender
         /// <param name="command">Command.</param>
         void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
             =>
-                GetHandler<ICommandHandler<TCommand>>()
+                GetHandlers<ICommandHandler<TCommand>>()
                     .Single()
                     .Handle(command);
 
@@ -90,7 +90,7 @@ namespace Bartender
         /// <returns>Result</returns>
         Task<TResult> IAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command)
             => 
-                GetHandler<IAsyncCommandHandler<TCommand, TResult>>()
+                GetHandlers<IAsyncCommandHandler<TCommand, TResult>>()
                     .Single()
                     .HandleAsync(command);
             
@@ -101,7 +101,7 @@ namespace Bartender
         /// <param name="command">Command to dispatch</param>
         Task IAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command)
             =>
-                GetHandler<IAsyncCommandHandler<TCommand>>()
+                GetHandlers<IAsyncCommandHandler<TCommand>>()
                     .Single()
                     .HandleAsync(command);
 
@@ -109,7 +109,7 @@ namespace Bartender
         /// Get handler
         /// </summary>
         /// <returns>Enumerable of handlers</returns>
-        IEnumerable<THandler> GetHandler<THandler>()
+        protected IEnumerable<THandler> GetHandlers<THandler>()
         {
             var handlers = Container.GetAllInstances<THandler>();
 

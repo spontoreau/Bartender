@@ -2,7 +2,7 @@ using System;
 
 namespace Bartender.Tests.Context
 {
-    public static class ContextFactory
+    public static class TestContextFactory
     {
         public static T Get<T>() where T : IValue
         {

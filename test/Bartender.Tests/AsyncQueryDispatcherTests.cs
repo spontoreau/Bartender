@@ -5,7 +5,7 @@ using Shouldly;
 
 namespace Bartender.Tests
 {
-    public class AsyncQueryDispatcherTest : DispatcherTests
+    public class AsyncQueryDispatcherTest : TestContext
     {
         [Fact]
         public async void ShouldHandleQueryOnce_WhenCallDispatchAsyncMethod()
@@ -19,32 +19,6 @@ namespace Bartender.Tests
         {
             var readModel = await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query);
             readModel.ShouldBeSameAs(ReadModel);
-        }
-
-        [Fact]
-        public void ShouldThrowException_WhenNoAsyncQueryHandler()
-        {
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new IAsyncQueryHandler<Query, ReadModel>[0]);
-
-            Should
-                .Throw<DispatcherException>(async () => await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query))
-                .Message
-                .ShouldBe(NoQueryHandlerExceptionMessageExpected);
-        }
-
-        [Fact]
-        public void ShouldThrowException_WhenMultipleAsyncQueryHandler()
-        {
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new [] { MockedAsyncQueryHandler.Object, MockedAsyncQueryHandler.Object });
-
-            Should
-                .Throw<DispatcherException>(async () => await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query))
-                .Message
-                .ShouldBe(MultipleQueryHandlerExceptionMessageExpected);
         }
     }
 }

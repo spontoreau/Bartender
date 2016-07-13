@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Bartender.Tests
 {
-    public class AsyncCommandDispatcherTests : DispatcherTests
+    public class AsyncCommandDispatcherTests : TestContext
     {
         [Fact]
         public async void ShouldHandleCommandOnce_WhenCallDispatchAsyncMethod()
