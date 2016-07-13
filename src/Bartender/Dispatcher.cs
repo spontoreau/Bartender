@@ -13,13 +13,9 @@ namespace Bartender
                               IAsyncQueryDispatcher, 
                               ICancellableAsyncQueryDispatcher,
                               ICommandDispatcher,
-                              IAsyncCommandDispatcher
+                              IAsyncCommandDispatcher,
+                              ICancellableAsyncCommandDispatcher
     {
-        /// <summary>
-        /// Dependency container.
-        /// </summary>
-        protected IDependencyContainer Container { get; }
-
         /// <summary>
         /// Initializes a new instance of the Dispatcher class.
         /// </summary>
@@ -28,6 +24,11 @@ namespace Bartender
         {
             Container = container;
         }
+
+        /// <summary>
+        /// Dependency container.
+        /// </summary>
+        protected IDependencyContainer Container { get; }
 
         /// <summary>
         /// Dispatch the specified query.
@@ -104,6 +105,29 @@ namespace Bartender
                 GetHandlers<IAsyncCommandHandler<TCommand>>()
                     .Single()
                     .HandleAsync(command);
+
+        /// <summary>
+        /// Dispatch a command asynchronously.
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Result</returns>
+        Task<TResult> ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
+            =>
+                GetHandlers<ICancellableAsyncCommandHandler<TCommand, TResult>>()
+                    .Single()
+                    .HandleAsync(command, cancellationToken);
+
+        /// <summary>
+        /// Dispatch a command asynchronously.
+        /// </summary>
+        /// <param name="command">Command to dispatch</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        Task ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
+            => 
+                GetHandlers<ICancellableAsyncCommandHandler<TCommand>>()
+                    .Single()
+                    .HandleAsync(command, cancellationToken);
 
         /// <summary>
         /// Get handler

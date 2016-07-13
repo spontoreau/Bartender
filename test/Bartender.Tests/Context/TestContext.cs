@@ -27,6 +27,7 @@ namespace Bartender.Tests.Context
         protected ICancellableAsyncQueryDispatcher CancellableAsyncQueryDispatcher => (ICancellableAsyncQueryDispatcher)Dispatcher;
         protected ICommandDispatcher CommandDispatcher => (ICommandDispatcher)Dispatcher;
         protected IAsyncCommandDispatcher AsyncCommandDispatcher => (IAsyncCommandDispatcher)Dispatcher;
+        protected ICancellableAsyncCommandDispatcher CancellableAsyncCommandDispatcher => (ICancellableAsyncCommandDispatcher)Dispatcher;
         protected readonly string NoQueryHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
         protected readonly string MultipleQueryHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
         protected readonly string NoCommandHandlerExceptionMessageExpected = $"No handler for '{typeof(Command)}'.";
