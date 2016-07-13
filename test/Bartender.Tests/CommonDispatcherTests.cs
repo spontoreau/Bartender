@@ -19,18 +19,18 @@ namespace Bartender.Tests
             ClearMockedQueryDependencies();
 
             Should
-                .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query))
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IQueryHandler<Query, ReadModel>>())
                 .Message
                 .ShouldBe(NoQueryHandlerExceptionMessageExpected);
 
             Should
-                .Throw<DispatcherException>(async () => await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query))
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncQueryHandler<Query, ReadModel>>())
                 .Message
                 .ShouldBe(NoQueryHandlerExceptionMessageExpected);
 
 
             Should
-                .Throw<DispatcherException>(async () => await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken))
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncQueryHandler<Query, ReadModel>>())
                 .Message
                 .ShouldBe(NoQueryHandlerExceptionMessageExpected);
         }
