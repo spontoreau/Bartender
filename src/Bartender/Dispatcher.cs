@@ -136,10 +136,10 @@ namespace Bartender
         {
             var handlers = Container.GetAllInstances<THandler>();
 
-            var messageType = typeof(THandler).GenericTypeArguments.First().FullName;
+            var messageType = typeof(THandler).GenericTypeArguments.First();
 
-            if(!handlers.Any()) throw new DispatcherException($"No handler for '{messageType}'.");
-            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType}'.");
+            if(!handlers.Any()) throw new DispatcherException($"No handler for '{messageType.FullName}'.");
+            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType.FullName}'.");
 
             return handlers;
         }
