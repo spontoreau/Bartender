@@ -47,20 +47,11 @@ namespace Bartender.Tests.Context
                 .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
                 .Returns(() => new[] { MockedQueryHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetInstance<IQueryHandler<Query, ReadModel>>())
-                .Returns(() => MockedQueryHandler.Object);
-            MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
                 .Returns(() => new[] { MockedAsyncQueryHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetInstance<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => MockedAsyncQueryHandler.Object);
-            MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<ICancellableAsyncQueryHandler<Query, ReadModel>>())
                 .Returns(() => new[] { MockedCancellableAsyncQueryHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetInstance<ICancellableAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => MockedCancellableAsyncQueryHandler.Object);
         }
 
         private void InitializeCommandDependencies()
@@ -70,26 +61,14 @@ namespace Bartender.Tests.Context
                 .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
                 .Returns(() => new[] { MockedCommandHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetInstance<ICommandHandler<Command, Result>>())
-                .Returns(() => MockedCommandHandler.Object);
-            MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
                 .Returns(() => new[] { MockedCommandWithoutResultHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetInstance<ICommandHandler<Command>>())
-                .Returns(() => MockedCommandWithoutResultHandler.Object);
             MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command, Result>>())
                 .Returns(() => new[] { MockedAsyncCommandHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetInstance<IAsyncCommandHandler<Command, Result>>())
-                .Returns(() => MockedAsyncCommandHandler.Object);
-            MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command>>())
                 .Returns(() => new[] { MockedAsyncCommandWithoutResultHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetInstance<IAsyncCommandHandler<Command>>())
-                .Returns(() => MockedAsyncCommandWithoutResultHandler.Object);
         }
 
         private void InitializeQueryHandlers()
