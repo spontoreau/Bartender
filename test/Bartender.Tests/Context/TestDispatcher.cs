@@ -7,5 +7,7 @@ namespace Bartender.Tests.Context
         public TestDispatcher(IDependencyContainer dependencyContainer) : base(dependencyContainer) { }
         public new IDependencyContainer Container => base.Container;
         public new IEnumerable<THandler> GetHandlers<THandler>() => base.GetHandlers<THandler>();
+        public new Dispatcher Validate<TMessage>(TMessage message) where TMessage : IMessage
+            => base.Validate(message);
     }
 }

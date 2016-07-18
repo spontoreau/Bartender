@@ -127,5 +127,14 @@ namespace Bartender.Tests
                 .Message
                 .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
         }
+
+        [Fact]
+        public void ShouldCallValidate_WhenCommandHaveValidator()
+        {
+            InitializeValidators();
+            Dispatcher.Validate(Command);
+
+            MockedValidator.Verify(x => x.Validate(Command));
+        }
     }
 }

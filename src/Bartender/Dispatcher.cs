@@ -36,7 +36,8 @@ namespace Bartender
         /// <returns>ReadModel</returns>
         TReadModel IQueryDispatcher.Dispatch<TQuery, TReadModel>(TQuery query)
             => 
-                GetHandlers<IQueryHandler<TQuery, TReadModel>>()
+                Validate(query)
+                    .GetHandlers<IQueryHandler<TQuery, TReadModel>>()
                     .Single()
                     .Handle(query);
         
@@ -47,7 +48,8 @@ namespace Bartender
         /// <returns>ReadModel</returns>
         async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
             => 
-                await GetHandlers<IAsyncQueryHandler<TQuery, TReadModel>>()
+                await Validate(query)
+                        .GetHandlers<IAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query);
 
@@ -58,7 +60,8 @@ namespace Bartender
         /// <param name="cancellationToken">Cancellation token</param>
         async Task<TReadModel> ICancellableAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
             =>
-                await GetHandlers<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
+                await Validate(query)
+                        .GetHandlers<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
                         .Single()
                         .HandleAsync(query, cancellationToken);
 
@@ -69,7 +72,8 @@ namespace Bartender
         /// <returns>Result</returns>
         TResult ICommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
             =>
-                GetHandlers<ICommandHandler<TCommand, TResult>>()
+                Validate(command)
+                    .GetHandlers<ICommandHandler<TCommand, TResult>>()
                     .Single()
                     .Handle(command);
 
@@ -79,7 +83,8 @@ namespace Bartender
         /// <param name="command">Command.</param>
         void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
             =>
-                GetHandlers<ICommandHandler<TCommand>>()
+                Validate(command)
+                    .GetHandlers<ICommandHandler<TCommand>>()
                     .Single()
                     .Handle(command);
 
@@ -90,7 +95,8 @@ namespace Bartender
         /// <returns>Result</returns>
         Task<TResult> IAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command)
             => 
-                GetHandlers<IAsyncCommandHandler<TCommand, TResult>>()
+                Validate(command)
+                    .GetHandlers<IAsyncCommandHandler<TCommand, TResult>>()
                     .Single()
                     .HandleAsync(command);
             
@@ -101,7 +107,8 @@ namespace Bartender
         /// <param name="command">Command to dispatch</param>
         Task IAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command)
             =>
-                GetHandlers<IAsyncCommandHandler<TCommand>>()
+                Validate(command)
+                    .GetHandlers<IAsyncCommandHandler<TCommand>>()
                     .Single()
                     .HandleAsync(command);
 
@@ -113,7 +120,8 @@ namespace Bartender
         /// <returns>Result</returns>
         Task<TResult> ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
             =>
-                GetHandlers<ICancellableAsyncCommandHandler<TCommand, TResult>>()
+                Validate(command)
+                    .GetHandlers<ICancellableAsyncCommandHandler<TCommand, TResult>>()
                     .Single()
                     .HandleAsync(command, cancellationToken);
 
@@ -124,7 +132,8 @@ namespace Bartender
         /// <param name="cancellationToken">Cancellation token</param>
         Task ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
             => 
-                GetHandlers<ICancellableAsyncCommandHandler<TCommand>>()
+                Validate(command)
+                    .GetHandlers<ICancellableAsyncCommandHandler<TCommand>>()
                     .Single()
                     .HandleAsync(command, cancellationToken);
 
@@ -142,6 +151,20 @@ namespace Bartender
             if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType.FullName}'.");
 
             return handlers;
+        }
+
+        /// <summary>
+        /// Message validation
+        /// </summary>
+        protected Dispatcher Validate<TMessage>(TMessage message)
+            where TMessage : IMessage
+        {
+            var validators = Container.GetAllInstances<IMessageValidator<TMessage>>();
+
+            foreach (var validator in validators)
+                validator.Validate(message);
+
+            return this;
         }
     }
 }
