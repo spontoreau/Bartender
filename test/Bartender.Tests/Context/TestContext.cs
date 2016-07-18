@@ -22,6 +22,7 @@ namespace Bartender.Tests.Context
         protected Mock<IAsyncCommandHandler<Command>> MockedAsyncCommandWithoutResultHandler { get; private set; }
         protected Mock<ICancellableAsyncCommandHandler<Command, Result>> MockedCancellableAsyncCommandHandler { get; private set; }
         protected Mock<ICancellableAsyncCommandHandler<Command>> MockedCancellableAsyncCommandWithoutResultHandler { get; private set; }
+        protected Mock<ICommandHandler<Publication>> MockedPublicationHandler { get; private set; }
         protected Mock<IMessageValidator<Command>> MockedValidator { get; private set; }
         protected TestDispatcher Dispatcher { get; private set; }
         protected IQueryDispatcher QueryDispatcher => (IQueryDispatcher)Dispatcher;
@@ -120,6 +121,8 @@ namespace Bartender.Tests.Context
                 .Setup(method => method.HandleAsync(Command, CancellationToken))
                 .Returns(Task.FromResult(Result));
             MockedCancellableAsyncCommandWithoutResultHandler = new Mock<ICancellableAsyncCommandHandler<Command>>();
+
+            MockedPublicationHandler = new Mock<ICommandHandler<Publication>>();
         }
 
         private void InitializeDispatcher()

@@ -136,5 +136,31 @@ namespace Bartender.Tests
 
             MockedValidator.Verify(x => x.Validate(Command));
         }
+
+        [Fact]
+        public void ShouldReturnTrue_WhenMessageIsPublication()
+        {
+            var isPublication = Dispatcher.IsPublication(typeof(Publication));
+
+            isPublication.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldReturnFalse_WhenMessageIsPublicationAndNotCommand()
+        {
+            var isPublication = Dispatcher.IsPublication(typeof(InvalidPublication));
+            isPublication.ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldNotThrowException_WhenMultipleCommandHandlersForPublication()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Publication>>())
+                .Returns(() => new [] { MockedPublicationHandler.Object, MockedPublicationHandler.Object});
+            
+            Should
+                .NotThrow(() => Dispatcher.GetHandlers<ICommandHandler<Publication>>());
+        }
     }
 }

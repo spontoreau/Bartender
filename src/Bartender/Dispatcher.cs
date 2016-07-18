@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -148,7 +150,9 @@ namespace Bartender
             var messageType = typeof(THandler).GenericTypeArguments.First();
 
             if(!handlers.Any()) throw new DispatcherException($"No handler for '{messageType.FullName}'.");
-            if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType.FullName}'.");
+
+            if(!IsPublication(messageType))
+                if(handlers.Count() > 1) throw new DispatcherException($"Multiple handler for '{messageType.FullName}'.");
 
             return handlers;
         }
@@ -165,6 +169,16 @@ namespace Bartender
                 validator.Validate(message);
 
             return this;
+        }
+
+        /// <summary>
+        /// True if a type is a publication, otherwise false
+        /// </summary>
+        /// <returns>True if a type is a publication, otherwise false</returns>
+        protected bool IsPublication(Type type)
+        {
+            var interfaces = type.GetTypeInfo().GetInterfaces();
+            return interfaces.Contains(typeof(IPublication)) && interfaces.Contains(typeof(ICommand));
         }
     }
 }
