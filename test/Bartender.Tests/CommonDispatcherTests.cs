@@ -134,7 +134,48 @@ namespace Bartender.Tests
             InitializeValidators();
             Dispatcher.Validate(Command);
 
-            MockedValidator.Verify(x => x.Validate(Command));
+            MockedCommandValidator.Verify(x => x.Validate(Command));
+        }
+
+        [Fact]
+        public async void ShouldApplyValidation_WhenDispatchCommand()
+        {
+            InitializeValidators();
+            MockedCommandValidator.Setup(x => x.Validate(Command)).Throws(new DispatcherException());
+
+            Should
+                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch(Command));
+
+            Should
+                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch<Command, Result>(Command));
+
+            await Should
+                    .ThrowAsync<DispatcherException>(async () => await AsyncCommandDispatcher.DispatchAsync(Command));
+
+            await Should
+                    .ThrowAsync<DispatcherException>(async () => await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command));
+
+            await Should
+                    .ThrowAsync<DispatcherException>(async() => await CancellableAsyncCommandDispatcher.DispatchAsync(Command, CancellationToken));
+
+            await Should
+                    .ThrowAsync<DispatcherException>(async () => await CancellableAsyncCommandDispatcher.DispatchAsync<Command, Result>(Command, CancellationToken));
+        }
+
+        [Fact]
+        public async void ShouldApplyValidation_WhenDispatchQuery()
+        {
+            InitializeValidators();
+            MockedQueryValidator.Setup(x => x.Validate(Query)).Throws(new DispatcherException());
+
+            Should
+                .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query));
+
+            await Should
+                .ThrowAsync<DispatcherException>(async () => await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query));
+
+            await Should
+                .ThrowAsync<DispatcherException>(async() => await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken));
         }
 
         [Fact]

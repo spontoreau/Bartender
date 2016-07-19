@@ -23,7 +23,8 @@ namespace Bartender.Tests.Context
         protected Mock<ICancellableAsyncCommandHandler<Command, Result>> MockedCancellableAsyncCommandHandler { get; private set; }
         protected Mock<ICancellableAsyncCommandHandler<Command>> MockedCancellableAsyncCommandWithoutResultHandler { get; private set; }
         protected Mock<ICommandHandler<Publication>> MockedPublicationHandler { get; private set; }
-        protected Mock<IMessageValidator<Command>> MockedValidator { get; private set; }
+        protected Mock<IMessageValidator<Command>> MockedCommandValidator { get; private set; }
+        protected Mock<IMessageValidator<Query>> MockedQueryValidator { get; private set; }
         protected TestDispatcher Dispatcher { get; private set; }
         protected IQueryDispatcher QueryDispatcher => (IQueryDispatcher)Dispatcher;
         protected IAsyncQueryDispatcher AsyncQueryDispatcher => (IAsyncQueryDispatcher)Dispatcher;
@@ -132,10 +133,15 @@ namespace Bartender.Tests.Context
 
         protected void InitializeValidators()
         {
-            MockedValidator = new Mock<IMessageValidator<Command>>();
+            MockedCommandValidator = new Mock<IMessageValidator<Command>>();
             MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IMessageValidator<Command>>())
-                .Returns(() => new [] { MockedValidator.Object });
+                .Returns(() => new [] { MockedCommandValidator.Object });
+                
+            MockedQueryValidator = new Mock<IMessageValidator<Query>>();
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IMessageValidator<Query>>())
+                .Returns(() => new [] { MockedQueryValidator.Object });
         }
 
         protected void ClearMockedQueryDependencies()
