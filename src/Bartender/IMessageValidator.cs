@@ -10,13 +10,6 @@
         /// </summary>
         /// <param name="message">Message.</param>
         void Validate(TMessage message);
-
-        /// <summary>
-        /// True if the message is valid, otherwise false
-        /// </summary>
-        /// <param name="message">Message.</param> 
-        /// <returns>True if the message is valid, otherwise false</returns>
-        bool IsValid(TMessage message);
     }
 }
 
