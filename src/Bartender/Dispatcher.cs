@@ -108,11 +108,12 @@ namespace Bartender
         /// </summary>
         /// <param name="command">Command to dispatch</param>
         async Task IAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command)
-            =>
-                await Validate(command)
-                        .GetHandlers<IAsyncCommandHandler<TCommand>>()
-                        .Single()
-                        .HandleAsync(command);
+        {
+	        var handlers = Validate(command).GetHandlers<IAsyncCommandHandler<TCommand>>();
+
+            foreach(var h in handlers) 
+                await h.HandleAsync(command);
+        }
 
         /// <summary>
         /// Dispatch a command asynchronously.

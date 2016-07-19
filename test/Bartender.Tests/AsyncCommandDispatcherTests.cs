@@ -27,5 +27,17 @@ namespace Bartender.Tests
             var result = await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command);
             result.ShouldBeSameAs(Result);
         }
+
+        [Fact]
+        public async void ShouldHandleMany_WhenDispatchPublicationWithoutResult()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Publication>>())
+                .Returns(() => new [] { MockedAsyncPublicationHandler.Object, MockedAsyncPublicationHandler.Object});
+
+            await AsyncCommandDispatcher.DispatchAsync(Publication);
+
+            MockedAsyncPublicationHandler.Verify(x => x.HandleAsync(Publication), Times.Exactly(2));
+        }
     }
 }
