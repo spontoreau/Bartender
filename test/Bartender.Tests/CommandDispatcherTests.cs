@@ -26,5 +26,17 @@ namespace Bartender.Tests.Context
             var result = CommandDispatcher.Dispatch<Command, Result>(Command);
             result.ShouldBeSameAs(Result);
         }
+
+        [Fact]
+        public void ShouldHandleMany_WhenDispatchPublicationWithoutResult()
+        {
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICommandHandler<Publication>>())
+                .Returns(() => new [] { MockedPublicationHandler.Object, MockedPublicationHandler.Object});
+
+            CommandDispatcher.Dispatch(Publication);
+
+            MockedPublicationHandler.Verify(x => x.Handle(Publication), Times.Exactly(2));
+        }
     }
 }

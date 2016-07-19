@@ -11,6 +11,7 @@ namespace Bartender.Tests.Context
         protected ReadModel ReadModel { get; } = TestContextFactory.Get<ReadModel>();
         protected Command Command { get; } = TestContextFactory.Get<Command>();
         protected Result Result { get; } = TestContextFactory.Get<Result>();
+        protected Publication Publication { get; } = TestContextFactory.Get<Publication>();
         protected CancellationToken CancellationToken { get; } = CancellationToken.None;
         protected Mock<IDependencyContainer> MockedDependencyContainer { get; private set; }
         protected Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; private set; }
@@ -137,7 +138,7 @@ namespace Bartender.Tests.Context
             MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IMessageValidator<Command>>())
                 .Returns(() => new [] { MockedCommandValidator.Object });
-                
+
             MockedQueryValidator = new Mock<IMessageValidator<Query>>();
             MockedDependencyContainer
                 .Setup(method => method.GetAllInstances<IMessageValidator<Query>>())

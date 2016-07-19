@@ -22,7 +22,7 @@ namespace Bartender.Tests
         }
 
         [Fact]
-        public async void ShouldReturnResult_WhenCallDispatchMethod()
+        public async void ShouldReturnResult_WhenCallDispatchAsyncMethod()
         {
             var result = await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command);
             result.ShouldBeSameAs(Result);

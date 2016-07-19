@@ -87,8 +87,8 @@ namespace Bartender
             =>
                 Validate(command)
                     .GetHandlers<ICommandHandler<TCommand>>()
-                    .Single()
-                    .Handle(command);
+                    .ToList()
+                    .ForEach(h => h.Handle(command));
 
         /// <summary>
         /// Dispatch a command asynchronously.
