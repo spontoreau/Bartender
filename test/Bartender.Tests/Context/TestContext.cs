@@ -25,7 +25,7 @@ namespace Bartender.Tests.Context
         protected Mock<ICancellableAsyncCommandHandler<Command>> MockedCancellableAsyncCommandWithoutResultHandler { get; private set; }
         protected Mock<ICommandHandler<Publication>> MockedPublicationHandler { get; private set; }
         protected Mock<IAsyncCommandHandler<Publication>> MockedAsyncPublicationHandler { get; private set; }
-        
+        protected Mock<ICancellableAsyncCommandHandler<Publication>> MockedCancellableAsyncPublicationHandler { get; private set; }
         protected Mock<IMessageValidator<Command>> MockedCommandValidator { get; private set; }
         protected Mock<IMessageValidator<Query>> MockedQueryValidator { get; private set; }
         protected TestDispatcher Dispatcher { get; private set; }
@@ -128,6 +128,7 @@ namespace Bartender.Tests.Context
 
             MockedPublicationHandler = new Mock<ICommandHandler<Publication>>();
             MockedAsyncPublicationHandler = new Mock<IAsyncCommandHandler<Publication>>();
+            MockedCancellableAsyncPublicationHandler = new Mock<ICancellableAsyncCommandHandler<Publication>>();
         }
 
         private void InitializeDispatcher()

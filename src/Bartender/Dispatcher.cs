@@ -134,11 +134,12 @@ namespace Bartender
         /// <param name="command">Command to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
         async Task ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
-            => 
-                await Validate(command)
-                        .GetHandlers<ICancellableAsyncCommandHandler<TCommand>>()
-                        .Single()
-                        .HandleAsync(command, cancellationToken);
+        {
+	        var handlers = Validate(command).GetHandlers<ICancellableAsyncCommandHandler<TCommand>>();
+
+            foreach(var h in handlers) 
+                await h.HandleAsync(command, cancellationToken);
+        }
 
         /// <summary>
         /// Get handler
