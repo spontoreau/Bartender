@@ -8,7 +8,6 @@ skip_commits:
   files:
   - LICENCE
   - '**/*.md'
-  - appveyor.yml
 
 configuration: Release
 platform: Any CPU
