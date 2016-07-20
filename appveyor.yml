@@ -29,3 +29,10 @@ test_script:
   
 artifacts:
   - path: artifacts\**\*.*
+  
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: VMmYNhMOvK7DxZOKna0yOYRLtBWqyuBQSPD08mRIz70v9G//tAVOBbk+voQmltnJ
+    artifact: /.*\.nupkg/
+    skip_symbols: true
