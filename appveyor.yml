@@ -8,6 +8,7 @@ skip_commits:
   files:
   - LICENCE
   - '**/*.md'
+  - appveyor.yml
 
 configuration: Release
 platform: Any CPU
@@ -17,11 +18,11 @@ before_build:
   - appveyor-retry dotnet restore test/Bartender.Tests -v Minimal
   
 build_script:
-  - dotnet build src/Bartender
-  - dotnet build test/Bartender.Tests
+  - dotnet build src/Bartender --version-suffix %APPVEYOR_BUILD_NUMBER%
+  - dotnet build test/Bartender.Tests --version-suffix %APPVEYOR_BUILD_NUMBER%
   
 after_build:
-  - dotnet pack src/Bartender -o artifacts
+  - dotnet pack src/Bartender --version-suffix %APPVEYOR_BUILD_NUMBER% --no-build -o artifacts
   
 test_script:
   - dotnet test test/Bartender.Tests
