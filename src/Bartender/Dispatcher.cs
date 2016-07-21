@@ -84,11 +84,12 @@ namespace Bartender
         /// </summary>
         /// <param name="command">Command.</param>
         void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
-            =>
-                Validate(command)
-                    .GetHandlers<ICommandHandler<TCommand>>()
-                    .ToList()
-                    .ForEach(h => h.Handle(command));
+        {
+            var handlers = Validate(command).GetHandlers<ICommandHandler<TCommand>>();
+            
+            foreach(var h in handlers)
+                h.Handle(command);
+        }
 
         /// <summary>
         /// Dispatch a command asynchronously.
@@ -101,7 +102,6 @@ namespace Bartender
                         .GetHandlers<IAsyncCommandHandler<TCommand, TResult>>()
                         .Single()
                         .HandleAsync(command);
-            
 
         /// <summary>
         /// Dispatch a command asynchronously.
@@ -177,10 +177,6 @@ namespace Bartender
         /// True if a type is a publication, otherwise false
         /// </summary>
         /// <returns>True if a type is a publication, otherwise false</returns>
-        protected bool IsPublication(Type type)
-        {
-            var interfaces = type.GetTypeInfo().GetInterfaces();
-            return interfaces.Contains(typeof(IPublication)) && interfaces.Contains(typeof(ICommand));
-        }
+        protected bool IsPublication(Type type) => type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IPublication));
     }
 }
