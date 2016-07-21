@@ -1,6 +1,6 @@
 namespace Bartender.Tests.Context
 {
-    public class Publication : AbstractValue, ICommand, IPublication
+    public class Publication : AbstractValue, IPublication
     {
 
     }

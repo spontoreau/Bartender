@@ -187,13 +187,6 @@ namespace Bartender.Tests
         }
 
         [Fact]
-        public void ShouldReturnFalse_WhenMessageIsPublicationAndNotCommand()
-        {
-            var isPublication = Dispatcher.IsPublication(typeof(InvalidPublication));
-            isPublication.ShouldBeFalse();
-        }
-
-        [Fact]
         public void ShouldNotThrowException_WhenMultipleCommandHandlersForPublication()
         {
             MockedDependencyContainer
