@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bartender;
+using ConsoleApplication.Domain.Personne.Create;
+using ConsoleApplication.Registries;
 using StructureMap;
 
 namespace ConsoleApplication

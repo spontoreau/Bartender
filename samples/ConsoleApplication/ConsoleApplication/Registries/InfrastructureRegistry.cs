@@ -2,7 +2,7 @@
 using ConsoleApplication.Infrastructure;
 using StructureMap;
 
-namespace ConsoleApplication
+namespace ConsoleApplication.Registries
 {
     public class InfrastructureRegistry : Registry
     {

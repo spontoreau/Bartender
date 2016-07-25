@@ -1,7 +1,7 @@
 ﻿using System;
 using Bartender;
 
-namespace ConsoleApplication
+namespace ConsoleApplication.Domain.Personne.Create
 {
     public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
     {
