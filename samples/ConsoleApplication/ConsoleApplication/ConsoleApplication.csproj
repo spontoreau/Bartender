@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Domain\Personne\Create\CreatePersonCommand.cs" />
     <Compile Include="Domain\Personne\Create\CreatePersonCommandHandler.cs" />
+    <Compile Include="Domain\Personne\Read\GetPersonQuery.cs" />
     <Compile Include="Infrastructure\DependencyContainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,7 @@
     <Folder Include="Domain" />
     <Folder Include="Domain\Personne" />
     <Folder Include="Domain\Personne\Create" />
+    <Folder Include="Domain\Personne\Read" />
     <Folder Include="Infrastructure" />
     <Folder Include="Registries" />
   </ItemGroup>
