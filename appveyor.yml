@@ -1,4 +1,4 @@
-version: 1.0.{build}
+﻿version: 1.0.{build}
 
 branches:
   only:
@@ -8,6 +8,7 @@ skip_commits:
   files:
   - LICENCE
   - '**/*.md'
+  - samples/*
 
 configuration: Release
 platform: Any CPU
