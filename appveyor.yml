@@ -8,7 +8,6 @@ skip_commits:
   files:
   - LICENCE
   - '**/*.md'
-  - samples/**/*
 
 configuration: Release
 platform: Any CPU
