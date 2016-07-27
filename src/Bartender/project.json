@@ -3,7 +3,7 @@
   "authors": [
     "Sylvain PONTOREAU"  
   ],
-  "description": "CQRS pattern inside",
+  "description": "CQRS for netstandard1.1 compliant projects !",
   "packOptions": {
     "tags": [
       "CQRS"
