@@ -6,176 +6,138 @@ namespace Bartender.Tests
 {
     public class CommonDispatcherTests : TestContext
     {
+        protected TestDispatcher Dispatcher { get; private set; }
+
+        public CommonDispatcherTests()
+        {
+            Dispatcher = new TestDispatcher(MockedDependencyContainer.Object);
+        }
+
         [Fact]
         public void ShouldHaveDependencyContainer_WhenInstanceCreated()
         {
             Dispatcher.Container.ShouldNotBeNull();
         }
-
         [Fact]
-        public void ShouldThrowExceptiont_WhenNoQueryHandlers()
+        public void ShouldThrowException_WhenNoHandlers()
         {
-            ClearMockedQueryDependencies();
+            ClearMockedDependencies();
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IHandler<Message, Result>>())
                 .Message
-                .ShouldBe(NoQueryHandlerExceptionMessageExpected);
+                .ShouldBe(NoHandlerExceptionMessageExpected);
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IHandler<Message>>())
                 .Message
-                .ShouldBe(NoQueryHandlerExceptionMessageExpected);
-
+                .ShouldBe(NoHandlerExceptionMessageExpected);
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncHandler<Message, Result>>())
                 .Message
-                .ShouldBe(NoQueryHandlerExceptionMessageExpected);
+                .ShouldBe(NoHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncHandler<Message>>())
+                .Message
+                .ShouldBe(NoHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncHandler<Message, Result>>())
+                .Message
+                .ShouldBe(NoHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncHandler<Message>>())
+                .Message
+                .ShouldBe(NoHandlerExceptionMessageExpected);
         }
 
         [Fact]
-        public void ShouldThrowException_WhenMultipleQueryHandlers()
+        public void ShouldThrowException_WhenMultipleHandlers()
         {
-            DuplicateMockedQueryDependencies();
+            DuplicateMockedDependencies();
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IHandler<Message, Result>>())
                 .Message
-                .ShouldBe(MultipleQueryHandlerExceptionMessageExpected);
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IHandler<Message>>())
                 .Message
-                .ShouldBe(MultipleQueryHandlerExceptionMessageExpected);
-
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
 
             Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncQueryHandler<Query, ReadModel>>())
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncHandler<Message, Result>>())
                 .Message
-                .ShouldBe(MultipleQueryHandlerExceptionMessageExpected);
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncHandler<Message>>())
+                .Message
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncHandler<Message, Result>>())
+                .Message
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
+
+            Should
+                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncHandler<Message>>())
+                .Message
+                .ShouldBe(MultipleHandlerExceptionMessageExpected);
         }
 
         [Fact]
-        public void ShouldThrowException_WhenNoCommandHandlers()
-        {
-            ClearMockedCommandDependencies();
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICommandHandler<Command>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncCommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncCommandHandler<Command>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncCommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncCommandHandler<Command>>())
-                .Message
-                .ShouldBe(NoCommandHandlerExceptionMessageExpected);
-        }
-
-        [Fact]
-        public void ShouldThrowException_WhenMultipleCommandHandlers()
-        {
-            DuplicateMockedCommandDependencies();
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICommandHandler<Command>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncCommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<IAsyncCommandHandler<Command>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncCommandHandler<Command, Result>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-
-            Should
-                .Throw<DispatcherException>(() => Dispatcher.GetHandlers<ICancellableAsyncCommandHandler<Command>>())
-                .Message
-                .ShouldBe(MultipleCommandHandlerExceptionMessageExpected);
-        }
-
-        [Fact]
-        public void ShouldCallValidate_WhenCommandHaveValidator()
+        public void ShouldCallValidate_WhenHaveValidator()
         {
             InitializeValidators();
-            Dispatcher.Validate(Command);
+            Dispatcher.Validate(Message);
 
-            MockedCommandValidator.Verify(x => x.Validate(Command));
+            MockedValidator.Verify(x => x.Validate(Message));
         }
 
         [Fact]
-        public async void ShouldApplyValidation_WhenDispatchCommand()
+        public async void ShouldApplyValidation_WhenDispatch()
         {
             InitializeValidators();
-            MockedCommandValidator.Setup(x => x.Validate(Command)).Throws(new DispatcherException());
+            MockedValidator.Setup(x => x.Validate(Message)).Throws(new DispatcherException());
 
             Should
-                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch(Command));
+                .Throw<DispatcherException>(() => ((IDispatcher)Dispatcher).Dispatch(Message));
 
             Should
-                .Throw<DispatcherException>(() => CommandDispatcher.Dispatch<Command, Result>(Command));
+                .Throw<DispatcherException>(() => ((IDispatcher)Dispatcher).Dispatch<Message, Result>(Message));
 
             await Should
-                    .ThrowAsync<DispatcherException>(async () => await AsyncCommandDispatcher.DispatchAsync(Command));
+                    .ThrowAsync<DispatcherException>(async () => await ((IAsyncDispatcher)Dispatcher).DispatchAsync(Message));
 
             await Should
-                    .ThrowAsync<DispatcherException>(async () => await AsyncCommandDispatcher.DispatchAsync<Command, Result>(Command));
+                    .ThrowAsync<DispatcherException>(async () => await ((IAsyncDispatcher)Dispatcher).DispatchAsync<Message, Result>(Message));
 
             await Should
-                    .ThrowAsync<DispatcherException>(async() => await CancellableAsyncCommandDispatcher.DispatchAsync(Command, CancellationToken));
+                    .ThrowAsync<DispatcherException>(async() => await ((ICancellableAsyncDispatcher)Dispatcher).DispatchAsync(Message, CancellationToken));
 
             await Should
-                    .ThrowAsync<DispatcherException>(async () => await CancellableAsyncCommandDispatcher.DispatchAsync<Command, Result>(Command, CancellationToken));
+                    .ThrowAsync<DispatcherException>(async () => await ((ICancellableAsyncDispatcher)Dispatcher).DispatchAsync<Message, Result>(Message, CancellationToken));
         }
 
         [Fact]
         public async void ShouldApplyValidation_WhenDispatchQuery()
         {
             InitializeValidators();
-            MockedQueryValidator.Setup(x => x.Validate(Query)).Throws(new DispatcherException());
+            MockedValidator.Setup(x => x.Validate(Message)).Throws(new DispatcherException());
 
             Should
-                .Throw<DispatcherException>(() => QueryDispatcher.Dispatch<Query, ReadModel>(Query));
+                .Throw<DispatcherException>(() => ((IDispatcher)Dispatcher).Dispatch<Message, Result>(Message));
 
             await Should
-                .ThrowAsync<DispatcherException>(async () => await AsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query));
+                .ThrowAsync<DispatcherException>(async () => await ((IAsyncDispatcher)Dispatcher).DispatchAsync<Message, Result>(Message));
 
             await Should
-                .ThrowAsync<DispatcherException>(async() => await CancellableAsyncQueryDispatcher.DispatchAsync<Query, ReadModel>(Query, CancellationToken));
+                .ThrowAsync<DispatcherException>(async() => await ((ICancellableAsyncDispatcher)Dispatcher).DispatchAsync<Message, Result>(Message, CancellationToken));
         }
 
         [Fact]
@@ -187,14 +149,14 @@ namespace Bartender.Tests
         }
 
         [Fact]
-        public void ShouldNotThrowException_WhenMultipleCommandHandlersForPublication()
+        public void ShouldNotThrowException_WhenMultipleHandlersForPublication()
         {
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Publication>>())
+                .Setup(method => method.GetAllInstances<IHandler<Publication>>())
                 .Returns(() => new [] { MockedPublicationHandler.Object, MockedPublicationHandler.Object});
             
             Should
-                .NotThrow(() => Dispatcher.GetHandlers<ICommandHandler<Publication>>());
+                .NotThrow(() => Dispatcher.GetHandlers<IHandler<Publication>>());
         }
     }
 }
