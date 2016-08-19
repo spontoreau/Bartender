@@ -7,7 +7,7 @@ Bartender is a CQRS propose without any dependencies and avaible for all netstan
 
 ## Installation
 
-**/!\ Bartender is now in beta version. Version 1.0.0 will be available soon**
+**/!\ Bartender is now in RC version.**
 
 ```
 PM> Install-Package Bartender -Pre
