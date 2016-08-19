@@ -4,6 +4,9 @@
 #OSX
 .DS_Store
 
+#VS Code
+.vscode/
+
 # User-specific files
 *.suo
 *.user
