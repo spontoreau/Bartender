@@ -7,7 +7,7 @@ Bartender is a CQRS propose without any dependencies and avaible for all netstan
 
 ## Installation
 
-**/!\ Bartender is in alpha version. Features are implemented but project structure can be change**
+**/!\ Bartender is now in beta version. Version 1.0.0 will be available soon**
 
 ```
 PM> Install-Package Bartender -Pre
@@ -17,7 +17,6 @@ PM> Install-Package Bartender -Pre
 ## Features
 
   * Synchronous/Asynchronous message dispatching
-  * Clear seggregation between commands and queries
   * Suit well with IoC
   * Simple Publish-subscribe mode
   * Automatic validation
