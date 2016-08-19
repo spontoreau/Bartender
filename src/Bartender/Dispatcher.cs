@@ -10,12 +10,9 @@ namespace Bartender
     /// <summary>
     /// Dispatcher.
     /// </summary>
-    public class Dispatcher : IQueryDispatcher, 
-                              IAsyncQueryDispatcher, 
-                              ICancellableAsyncQueryDispatcher,
-                              ICommandDispatcher,
-                              IAsyncCommandDispatcher,
-                              ICancellableAsyncCommandDispatcher
+    public class Dispatcher : IDispatcher, 
+                              IAsyncDispatcher, 
+                              ICancellableAsyncDispatcher
     {
         /// <summary>
         /// Initializes a new instance of the Dispatcher class.
@@ -32,113 +29,77 @@ namespace Bartender
         protected IDependencyContainer Container { get; }
 
         /// <summary>
-        /// Dispatch the specified query.
+        /// Dispatch a message
         /// </summary>
-        /// <param name="query">Query.</param>
-        /// <returns>ReadModel</returns>
-        TReadModel IQueryDispatcher.Dispatch<TQuery, TReadModel>(TQuery query)
-            => 
-                Validate(query)
-                    .GetHandlers<IQueryHandler<TQuery, TReadModel>>()
-                    .Single()
-                    .Handle(query);
-        
-        /// <summary>
-        /// Dispatch a query asynchronously.
-        /// </summary>
-        /// <param name="query">Query to dispatch</param>
-        /// <returns>ReadModel</returns>
-        async Task<TReadModel> IAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query)
-            => 
-                await Validate(query)
-                        .GetHandlers<IAsyncQueryHandler<TQuery, TReadModel>>()
-                        .Single()
-                        .HandleAsync(query);
-
-        /// <summary>
-        /// Dispatch a query asynchronously.
-        /// </summary>
-        /// <param name="query">Query to dispatch</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        async Task<TReadModel> ICancellableAsyncQueryDispatcher.DispatchAsync<TQuery, TReadModel>(TQuery query, CancellationToken cancellationToken)
-            =>
-                await Validate(query)
-                        .GetHandlers<ICancellableAsyncQueryHandler<TQuery, TReadModel>>()
-                        .Single()
-                        .HandleAsync(query, cancellationToken);
-
-        /// <summary>
-        /// Dispatch a command
-        /// </summary>
-        /// <param name="command">Command to dispatch</param>
+        /// <param name="message">Message to dispatch</param>
         /// <returns>Result</returns>
-        TResult ICommandDispatcher.Dispatch<TCommand, TResult>(TCommand command)
+        TResult IDispatcher.Dispatch<TMessage, TResult>(TMessage message)
             =>
-                Validate(command)
-                    .GetHandlers<ICommandHandler<TCommand, TResult>>()
+                Validate(message)
+                    .GetHandlers<IHandler<TMessage, TResult>>()
                     .Single()
-                    .Handle(command);
+                    .Handle(message);
 
         /// <summary>
-        /// Dispatch the specified command.
+        /// Dispatch the specified message.
         /// </summary>
-        /// <param name="command">Command.</param>
-        void ICommandDispatcher.Dispatch<TCommand>(TCommand command)
+        /// <param name="message">Message.</param>
+        void IDispatcher.Dispatch<TMessage>(TMessage message)
         {
-            var handlers = Validate(command).GetHandlers<ICommandHandler<TCommand>>();
+            var handlers = Validate(message).GetHandlers<IHandler<TMessage>>();
             
             foreach(var h in handlers)
-                h.Handle(command);
+                h.Handle(message);
         }
 
         /// <summary>
-        /// Dispatch a command asynchronously.
+        /// Dispatch a message asynchronously.
         /// </summary>
-        /// <param name="command">Command to dispatch</param>
+        /// <param name="message">Message to dispatch</param>
         /// <returns>Result</returns>
-        async Task<TResult> IAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command)
+        async Task<TResult> IAsyncDispatcher.DispatchAsync<TMessage, TResult>(TMessage message)
             => 
-                await Validate(command)
-                        .GetHandlers<IAsyncCommandHandler<TCommand, TResult>>()
+                await Validate(message)
+                        .GetHandlers<IAsyncHandler<TMessage, TResult>>()
                         .Single()
-                        .HandleAsync(command);
+                        .HandleAsync(message);
 
         /// <summary>
-        /// Dispatch a command asynchronously.
+        /// Dispatch a message asynchronously.
         /// </summary>
-        /// <param name="command">Command to dispatch</param>
-        async Task IAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command)
+        /// <param name="message">Message to dispatch</param>
+        async Task IAsyncDispatcher.DispatchAsync<TMessage>(TMessage message)
         {
-	        var handlers = Validate(command).GetHandlers<IAsyncCommandHandler<TCommand>>();
+	        var handlers = Validate(message).GetHandlers<IAsyncHandler<TMessage>>();
 
             foreach(var h in handlers) 
-                await h.HandleAsync(command);
+                await h.HandleAsync(message);
         }
 
         /// <summary>
-        /// Dispatch a command asynchronously.
+        /// Dispatch a message asynchronously.
         /// </summary>
-        /// <param name="command">Command to dispatch</param>
+        /// <param name="message">Message to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Result</returns>
-        async Task<TResult> ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
+        async Task<TResult> ICancellableAsyncDispatcher.DispatchAsync<TMessage, TResult>(TMessage message, CancellationToken cancellationToken)
             =>
-                await Validate(command)
-                        .GetHandlers<ICancellableAsyncCommandHandler<TCommand, TResult>>()
+                await Validate(message)
+                        .GetHandlers<ICancellableAsyncHandler<TMessage, TResult>>()
                         .Single()
-                        .HandleAsync(command, cancellationToken);
+                        .HandleAsync(message, cancellationToken);
 
         /// <summary>
-        /// Dispatch a command asynchronously.
+        /// Dispatch a message asynchronously.
         /// </summary>
-        /// <param name="command">Command to dispatch</param>
+        /// <param name="message">Message to dispatch</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        async Task ICancellableAsyncCommandDispatcher.DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
+        async Task ICancellableAsyncDispatcher.DispatchAsync<TMessage>(TMessage message, CancellationToken cancellationToken)
         {
-	        var handlers = Validate(command).GetHandlers<ICancellableAsyncCommandHandler<TCommand>>();
+	        var handlers = Validate(message).GetHandlers<ICancellableAsyncHandler<TMessage>>();
 
             foreach(var h in handlers) 
-                await h.HandleAsync(command, cancellationToken);
+                await h.HandleAsync(message, cancellationToken);
         }
 
         /// <summary>

@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
@@ -7,216 +6,135 @@ namespace Bartender.Tests.Context
 {
     public abstract class TestContext
     {
-        protected Query Query { get; } = TestContextFactory.Get<Query>();
-        protected ReadModel ReadModel { get; } = TestContextFactory.Get<ReadModel>();
-        protected Command Command { get; } = TestContextFactory.Get<Command>();
+        protected Message Message { get; } = TestContextFactory.Get<Message>();
         protected Result Result { get; } = TestContextFactory.Get<Result>();
         protected Publication Publication { get; } = TestContextFactory.Get<Publication>();
         protected CancellationToken CancellationToken { get; } = CancellationToken.None;
+
         protected Mock<IDependencyContainer> MockedDependencyContainer { get; private set; }
-        protected Mock<IQueryHandler<Query, ReadModel>> MockedQueryHandler { get; private set; }
-        protected Mock<IAsyncQueryHandler<Query, ReadModel>> MockedAsyncQueryHandler { get; private set; }
-        protected Mock<ICancellableAsyncQueryHandler<Query, ReadModel>> MockedCancellableAsyncQueryHandler { get; private set; }
-        protected Mock<ICommandHandler<Command, Result>> MockedCommandHandler { get; private set; }
-        protected Mock<ICommandHandler<Command>> MockedCommandWithoutResultHandler { get; private set; }
-        protected Mock<IAsyncCommandHandler<Command, Result>> MockedAsyncCommandHandler { get; private set; }
-        protected Mock<IAsyncCommandHandler<Command>> MockedAsyncCommandWithoutResultHandler { get; private set; }
-        protected Mock<ICancellableAsyncCommandHandler<Command, Result>> MockedCancellableAsyncCommandHandler { get; private set; }
-        protected Mock<ICancellableAsyncCommandHandler<Command>> MockedCancellableAsyncCommandWithoutResultHandler { get; private set; }
-        protected Mock<ICommandHandler<Publication>> MockedPublicationHandler { get; private set; }
-        protected Mock<IAsyncCommandHandler<Publication>> MockedAsyncPublicationHandler { get; private set; }
-        protected Mock<ICancellableAsyncCommandHandler<Publication>> MockedCancellableAsyncPublicationHandler { get; private set; }
-        protected Mock<IMessageValidator<Command>> MockedCommandValidator { get; private set; }
-        protected Mock<IMessageValidator<Query>> MockedQueryValidator { get; private set; }
-        protected TestDispatcher Dispatcher { get; private set; }
-        protected IQueryDispatcher QueryDispatcher => (IQueryDispatcher)Dispatcher;
-        protected IAsyncQueryDispatcher AsyncQueryDispatcher => (IAsyncQueryDispatcher)Dispatcher;
-        protected ICancellableAsyncQueryDispatcher CancellableAsyncQueryDispatcher => (ICancellableAsyncQueryDispatcher)Dispatcher;
-        protected ICommandDispatcher CommandDispatcher => (ICommandDispatcher)Dispatcher;
-        protected IAsyncCommandDispatcher AsyncCommandDispatcher => (IAsyncCommandDispatcher)Dispatcher;
-        protected ICancellableAsyncCommandDispatcher CancellableAsyncCommandDispatcher => (ICancellableAsyncCommandDispatcher)Dispatcher;
-        protected readonly string NoQueryHandlerExceptionMessageExpected = $"No handler for '{typeof(Query)}'.";
-        protected readonly string MultipleQueryHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Query)}'.";
-        protected readonly string NoCommandHandlerExceptionMessageExpected = $"No handler for '{typeof(Command)}'.";
-        protected readonly string MultipleCommandHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Command)}'.";
+
+        protected Mock<IHandler<Message, Result>> MockedHandler { get; private set; }
+        protected Mock<IAsyncHandler<Message, Result>> MockedAsyncHandler { get; private set; }
+        protected Mock<ICancellableAsyncHandler<Message, Result>> MockedCancellableAsyncHandler { get; private set; }
+
+        protected Mock<IHandler<Message>> MockedFireAndForgetHandler { get; private set; }
+        protected Mock<IAsyncHandler<Message>> MockedAsyncFireAndForgetHandler { get; private set; }
+        protected Mock<ICancellableAsyncHandler<Message>> MockedCancellableAsyncFireAndForgetHandler { get; private set; }
+        
+        protected Mock<IHandler<Publication>> MockedPublicationHandler { get; private set; }
+        protected Mock<IAsyncHandler<Publication>> MockedAsyncPublicationHandler { get; private set; }
+        protected Mock<ICancellableAsyncHandler<Publication>> MockedCancellableAsyncPublicationHandler { get; private set; }
+
+        protected Mock<IMessageValidator<Message>> MockedValidator { get; private set; }
+
+        protected readonly string NoHandlerExceptionMessageExpected = $"No handler for '{typeof(Message)}'.";
+        protected readonly string MultipleHandlerExceptionMessageExpected = $"Multiple handler for '{typeof(Message)}'.";
 
         protected TestContext()
         {
             MockedDependencyContainer = new Mock<IDependencyContainer>();
 
-            InitializeQueryDependencies();
-            InitializeCommandDependencies();
-            InitializeQueryHandlers();
-            InitializeCommandHandlers();
-            InitializeDispatcher();
+            InitializeDependencies();
+            InitializeHandlers();
         }
 
-        private void InitializeQueryDependencies()
+        private void InitializeDependencies()
         {
-            //Query
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
-                .Returns(() => new[] { MockedQueryHandler.Object });
+                .Setup(method => method.GetAllInstances<IHandler<Message, Result>>())
+                .Returns(() => new[] { MockedHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new[] { MockedAsyncQueryHandler.Object });
+                .Setup(method => method.GetAllInstances<IHandler<Message>>())
+                .Returns(() => new[] { MockedFireAndForgetHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new[] { MockedCancellableAsyncQueryHandler.Object });
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message, Result>>())
+                .Returns(() => new[] { MockedAsyncHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message>>())
+                .Returns(() => new[] { MockedAsyncFireAndForgetHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message, Result>>())
+                .Returns(() => new[] { MockedCancellableAsyncHandler.Object });
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message>>())
+                .Returns(() => new[] { MockedCancellableAsyncFireAndForgetHandler.Object });
         }
 
-        private void InitializeCommandDependencies()
+        private void InitializeHandlers()
         {
-            //Command
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
-                .Returns(() => new[] { MockedCommandHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
-                .Returns(() => new[] { MockedCommandWithoutResultHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new[] { MockedAsyncCommandHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command>>())
-                .Returns(() => new[] { MockedAsyncCommandWithoutResultHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new[] { MockedCancellableAsyncCommandHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command>>())
-                .Returns(() => new[] { MockedCancellableAsyncCommandWithoutResultHandler.Object });
-        }
-
-        private void InitializeQueryHandlers()
-        {
-            MockedQueryHandler = new Mock<IQueryHandler<Query, ReadModel>>();
-            MockedQueryHandler
-                .Setup(method => method.Handle(Query))
-                .Returns(ReadModel);
-
-            MockedAsyncQueryHandler = new Mock<IAsyncQueryHandler<Query, ReadModel>>();
-            MockedAsyncQueryHandler
-                .Setup(method => method.HandleAsync(Query))
-                .Returns(Task.FromResult(ReadModel));
-
-            MockedCancellableAsyncQueryHandler = new Mock<ICancellableAsyncQueryHandler<Query, ReadModel>>();
-            MockedCancellableAsyncQueryHandler
-                .Setup(method => method.HandleAsync(Query, CancellationToken))
-                .Returns(Task.FromResult(ReadModel));
-        }
-
-        private void InitializeCommandHandlers()
-        {
-            MockedCommandHandler = new Mock<ICommandHandler<Command, Result>>();
-            MockedCommandHandler
-                .Setup(method => method.Handle(Command))
+            MockedHandler = new Mock<IHandler<Message, Result>>();
+            MockedHandler
+                .Setup(method => method.Handle(Message))
                 .Returns(Result);
-            MockedCommandWithoutResultHandler = new Mock<ICommandHandler<Command>>();
-            MockedCommandWithoutResultHandler
-                .Setup(method => method.Handle(Command));
-            MockedAsyncCommandHandler = new Mock<IAsyncCommandHandler<Command, Result>>();
-            MockedAsyncCommandHandler
-                .Setup(method => method.HandleAsync(Command))
+            MockedFireAndForgetHandler = new Mock<IHandler<Message>>();
+            MockedFireAndForgetHandler
+                .Setup(method => method.Handle(Message));
+            MockedAsyncHandler = new Mock<IAsyncHandler<Message, Result>>();
+            MockedAsyncHandler
+                .Setup(method => method.HandleAsync(Message))
                 .Returns(Task.FromResult(Result));
-            MockedAsyncCommandWithoutResultHandler = new Mock<IAsyncCommandHandler<Command>>();
-            MockedCancellableAsyncCommandHandler = new Mock<ICancellableAsyncCommandHandler<Command, Result>>();
-            MockedCancellableAsyncCommandHandler
-                .Setup(method => method.HandleAsync(Command, CancellationToken))
+            MockedAsyncFireAndForgetHandler = new Mock<IAsyncHandler<Message>>();
+            MockedCancellableAsyncHandler = new Mock<ICancellableAsyncHandler<Message, Result>>();
+            MockedCancellableAsyncHandler
+                .Setup(method => method.HandleAsync(Message, CancellationToken))
                 .Returns(Task.FromResult(Result));
-            MockedCancellableAsyncCommandWithoutResultHandler = new Mock<ICancellableAsyncCommandHandler<Command>>();
+            MockedCancellableAsyncFireAndForgetHandler = new Mock<ICancellableAsyncHandler<Message>>();
 
-            MockedPublicationHandler = new Mock<ICommandHandler<Publication>>();
-            MockedAsyncPublicationHandler = new Mock<IAsyncCommandHandler<Publication>>();
-            MockedCancellableAsyncPublicationHandler = new Mock<ICancellableAsyncCommandHandler<Publication>>();
-        }
-
-        private void InitializeDispatcher()
-        {
-            Dispatcher = new TestDispatcher(MockedDependencyContainer.Object);
+            MockedPublicationHandler = new Mock<IHandler<Publication>>();
+            MockedAsyncPublicationHandler = new Mock<IAsyncHandler<Publication>>();
+            MockedCancellableAsyncPublicationHandler = new Mock<ICancellableAsyncHandler<Publication>>();
         }
 
         protected void InitializeValidators()
         {
-            MockedCommandValidator = new Mock<IMessageValidator<Command>>();
+            MockedValidator = new Mock<IMessageValidator<Message>>();
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IMessageValidator<Command>>())
-                .Returns(() => new [] { MockedCommandValidator.Object });
-
-            MockedQueryValidator = new Mock<IMessageValidator<Query>>();
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IMessageValidator<Query>>())
-                .Returns(() => new [] { MockedQueryValidator.Object });
+                .Setup(method => method.GetAllInstances<IMessageValidator<Message>>())
+                .Returns(() => new [] { MockedValidator.Object });
         }
 
-        protected void ClearMockedQueryDependencies()
+        protected void ClearMockedDependencies()
         {
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
-                .Returns(() => new IQueryHandler<Query, ReadModel>[0]);
+                .Setup(method => method.GetAllInstances<IHandler<Message, Result>>())
+                .Returns(() => new IHandler<Message, Result>[0]);
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new IAsyncQueryHandler<Query, ReadModel>[0]);
+                .Setup(method => method.GetAllInstances<IHandler<Message>>())
+                .Returns(() => new IHandler<Message>[0]);
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new ICancellableAsyncQueryHandler<Query, ReadModel>[0]);
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message, Result>>())
+                .Returns(() => new IAsyncHandler<Message, Result>[0]);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message>>())
+                .Returns(() => new IAsyncHandler<Message>[0]);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message, Result>>())
+                .Returns(() => new ICancellableAsyncHandler<Message, Result>[0]);
+            MockedDependencyContainer
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message>>())
+                .Returns(() => new ICancellableAsyncHandler<Message>[0]);
         }
 
-        protected void DuplicateMockedQueryDependencies()
+        protected void DuplicateMockedDependencies()
         {
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IQueryHandler<Query, ReadModel>>())
-                .Returns(() => new [] { MockedQueryHandler.Object, MockedQueryHandler.Object });
+                .Setup(method => method.GetAllInstances<IHandler<Message, Result>>())
+                .Returns(() => new [] { MockedHandler.Object, MockedHandler.Object});
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new [] { MockedAsyncQueryHandler.Object, MockedAsyncQueryHandler.Object });
+                .Setup(method => method.GetAllInstances<IHandler<Message>>())
+                .Returns(() => new [] { MockedFireAndForgetHandler.Object, MockedFireAndForgetHandler.Object});
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncQueryHandler<Query, ReadModel>>())
-                .Returns(() => new [] { MockedCancellableAsyncQueryHandler.Object, MockedCancellableAsyncQueryHandler.Object });
-        }
-
-        protected void ClearMockedCommandDependencies()
-        {
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message, Result>>())
+                .Returns(() => new [] { MockedAsyncHandler.Object, MockedAsyncHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
-                .Returns(() => new ICommandHandler<Command, Result>[0]);
+                .Setup(method => method.GetAllInstances<IAsyncHandler<Message>>())
+                .Returns(() => new [] { MockedAsyncFireAndForgetHandler.Object, MockedAsyncFireAndForgetHandler.Object});
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
-                .Returns(() => new ICommandHandler<Command>[0]);
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message, Result>>())
+                .Returns(() => new [] { MockedCancellableAsyncHandler.Object, MockedCancellableAsyncHandler.Object });
             MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new IAsyncCommandHandler<Command, Result>[0]);
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command>>())
-                .Returns(() => new IAsyncCommandHandler<Command>[0]);
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new ICancellableAsyncCommandHandler<Command, Result>[0]);
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command>>())
-                .Returns(() => new ICancellableAsyncCommandHandler<Command>[0]);
-        }
-
-        protected void DuplicateMockedCommandDependencies()
-        {
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command, Result>>())
-                .Returns(() => new [] { MockedCommandHandler.Object, MockedCommandHandler.Object});
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICommandHandler<Command>>())
-                .Returns(() => new [] { MockedCommandWithoutResultHandler.Object, MockedCommandWithoutResultHandler.Object});
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new [] { MockedAsyncCommandHandler.Object, MockedAsyncCommandHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<IAsyncCommandHandler<Command>>())
-                .Returns(() => new [] { MockedAsyncCommandWithoutResultHandler.Object, MockedAsyncCommandWithoutResultHandler.Object});
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command, Result>>())
-                .Returns(() => new [] { MockedCancellableAsyncCommandHandler.Object, MockedCancellableAsyncCommandHandler.Object });
-            MockedDependencyContainer
-                .Setup(method => method.GetAllInstances<ICancellableAsyncCommandHandler<Command>>())
-                .Returns(() => new [] { MockedCancellableAsyncCommandWithoutResultHandler.Object, MockedCancellableAsyncCommandWithoutResultHandler.Object });
+                .Setup(method => method.GetAllInstances<ICancellableAsyncHandler<Message>>())
+                .Returns(() => new [] { MockedCancellableAsyncFireAndForgetHandler.Object, MockedCancellableAsyncFireAndForgetHandler.Object });
         }
     }
 }
