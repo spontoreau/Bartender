@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>9451E64B-1930-4677-94DA-CD68B03725F2</ProjectGuid>
+    <ProjectGuid>{9451E64B-1930-4677-94DA-CD68B03725F2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConsoleApplication</RootNamespace>
@@ -32,14 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bartender, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Bartender.1.0.0-alpha-3\lib\net45\Bartender.dll</HintPath>
+    <Reference Include="Bartender, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bartender.1.0.0-rc\lib\net45\Bartender.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap.Net4, Version=4.2.0.402, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,21 +51,16 @@
     <Compile Include="Domain\Personne\Create\CreatePersonCommand.cs" />
     <Compile Include="Domain\Personne\Create\CreatePersonCommandHandler.cs" />
     <Compile Include="Domain\Personne\Read\GetPersonQuery.cs" />
+    <Compile Include="Domain\Personne\Read\GetPersonQueryHandler.cs" />
+    <Compile Include="Domain\Personne\Read\GetPersonReadModel.cs" />
     <Compile Include="Infrastructure\DependencyContainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registries\InfrastructureRegistry.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain" />
-    <Folder Include="Domain\Personne" />
-    <Folder Include="Domain\Personne\Create" />
-    <Folder Include="Domain\Personne\Read" />
-    <Folder Include="Infrastructure" />
-    <Folder Include="Registries" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

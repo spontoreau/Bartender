@@ -2,7 +2,7 @@
 
 namespace ConsoleApplication.Domain.Personne.Read
 {
-    public class GetPersonQuery : IQuery
+    public class GetPersonQuery : IMessage
     {
 
     }
