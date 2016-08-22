@@ -9,20 +9,18 @@ namespace ConsoleApplication
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var registry = new Registry();
             registry.IncludeRegistry<InfrastructureRegistry>();
             var container = new Container(registry);
 
-            var createPersonCommandHandler = container.GetInstance<IHandler<CreatePersonCommand>>();
-            createPersonCommandHandler.Handle(new CreatePersonCommand());
+            var dispatcher = container.GetInstance<IDispatcher>();
+            dispatcher.Dispatch(new CreatePersonCommand());
 
-            var getPersonQueryHandler = container.GetInstance<IHandler<GetPersonQuery, GetPersonReadModel>>();
-            var person = getPersonQueryHandler.Handle(new GetPersonQuery());
+            var person = dispatcher.Dispatch<GetPersonQuery, GetPersonReadModel>(new GetPersonQuery());
 
             Console.WriteLine($"Hello {person.Name} !");
-
             Console.ReadKey();
         }
     }

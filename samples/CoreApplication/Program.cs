@@ -25,11 +25,10 @@ namespace ConsoleApplication
 
         static async Task RunAsync()
         {
-            var createPersonCommandHandler = Container.GetInstance<IAsyncHandler<CreatePersonCommand>>();
-            await createPersonCommandHandler.HandleAsync(new CreatePersonCommand());
+            var dispatcher = Container.GetInstance<IAsyncDispatcher>();
+            await dispatcher.DispatchAsync(new CreatePersonCommand());
 
-            var getPersonQueryHandler = Container.GetInstance<IAsyncHandler<GetPersonQuery, GetPersonReadModel>>();
-            var person = await getPersonQueryHandler.HandleAsync(new GetPersonQuery());
+            var person = await dispatcher.DispatchAsync<GetPersonQuery, GetPersonReadModel>(new GetPersonQuery());
 
             Console.WriteLine($"Hello {person.Name} !");
         }
