@@ -8,27 +8,21 @@ namespace ConsoleApplication.Registries
     {
         public InfrastructureRegistry()
         {
-            For<ICommandDispatcher>().Use<Dispatcher>();
-            For<IAsyncCommandDispatcher>().Use<Dispatcher>();
-            For<ICancellableAsyncCommandDispatcher>().Use<Dispatcher>();
-            For<IQueryDispatcher>().Use<Dispatcher>();
-            For<IAsyncQueryDispatcher>().Use<Dispatcher>();
-            For<ICancellableAsyncCommandDispatcher>().Use<Dispatcher>();
+            For<IDispatcher>().Use<Dispatcher>();
+            For<IAsyncDispatcher>().Use<Dispatcher>();
+            For<ICancellableAsyncDispatcher>().Use<Dispatcher>();
 
             For<IDependencyContainer>().Use<DependencyContainer>();
 
             Scan(scanner =>
             {
-                scanner.Assembly(this.GetType().Assembly);
-                scanner.AddAllTypesOf(typeof(ICommandHandler<,>));
-                scanner.AddAllTypesOf(typeof(IAsyncCommandHandler<,>));
-                scanner.AddAllTypesOf(typeof(ICancellableAsyncCommandHandler<,>));
-                scanner.AddAllTypesOf(typeof(ICommandHandler<>));
-                scanner.AddAllTypesOf(typeof(IAsyncCommandHandler<>));
-                scanner.AddAllTypesOf(typeof(ICancellableAsyncCommandHandler<>));
-                scanner.AddAllTypesOf(typeof(IQueryHandler<,>));
-                scanner.AddAllTypesOf(typeof(IAsyncQueryHandler<,>));
-                scanner.AddAllTypesOf(typeof(ICancellableAsyncQueryHandler<,>));
+                scanner.Assembly(GetType().Assembly);
+                scanner.AddAllTypesOf(typeof(IHandler<>));
+                scanner.AddAllTypesOf(typeof(IHandler<,>));
+                scanner.AddAllTypesOf(typeof(IAsyncHandler<>));
+                scanner.AddAllTypesOf(typeof(IAsyncHandler<,>));
+                scanner.AddAllTypesOf(typeof(ICancellableAsyncHandler<>));
+                scanner.AddAllTypesOf(typeof(ICancellableAsyncHandler<,>));
             });
         }
     }

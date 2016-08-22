@@ -2,7 +2,7 @@
 
 namespace ConsoleApplication.Domain.Personne.Create
 {
-    public class CreatePersonCommand : ICommand
+    public class CreatePersonCommand : IMessage
     {
 
     }
