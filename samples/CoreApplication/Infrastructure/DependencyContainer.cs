@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Bartender;
 using StructureMap;
 
-namespace ConsoleApplication.Infrastructure
+namespace CoreApplication.Infrastructure
 {
     public class DependencyContainer : IDependencyContainer
     {

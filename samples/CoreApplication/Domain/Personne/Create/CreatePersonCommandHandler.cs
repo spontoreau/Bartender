@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Bartender;
 
-namespace ConsoleApplication.Domain.Personne.Create
+namespace CoreApplication.Domain.Personne.Create
 {
-    public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand>
+    public class CreatePersonCommandHandler : IAsyncHandler<CreatePersonCommand>
     {
-        public void Handle(CreatePersonCommand command)
+        public async Task HandleAsync(CreatePersonCommand command)
         {
-            Console.WriteLine("CreatePersonCommand");
+            await Task.Run(() => {
+                Console.WriteLine("CreatePersonCommand");
+            });
         }
     }
 }

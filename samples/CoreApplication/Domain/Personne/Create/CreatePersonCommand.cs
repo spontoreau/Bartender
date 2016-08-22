@@ -1,8 +1,8 @@
 ﻿using Bartender;
 
-namespace ConsoleApplication.Domain.Personne.Create
+namespace CoreApplication.Domain.Personne.Create
 {
-    public class CreatePersonCommand : ICommand
+    public class CreatePersonCommand : IMessage
     {
 
     }

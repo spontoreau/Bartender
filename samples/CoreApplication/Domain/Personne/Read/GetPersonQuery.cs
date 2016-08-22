@@ -1,8 +1,8 @@
 ﻿using Bartender;
 
-namespace ConsoleApplication.Domain.Personne.Read
+namespace CoreApplication.Domain.Personne.Read
 {
-    public class GetPersonQuery : IQuery
+    public class GetPersonQuery : IMessage
     {
 
     }
