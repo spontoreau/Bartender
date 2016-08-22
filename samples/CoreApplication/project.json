@@ -5,8 +5,8 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "Bartender": "1.0.0-alpha-3",
-    "structuremap": "4.2.0.402"
+    "Bartender": "1.0.0-rc",
+    "structuremap": "4.4.0"
   },
   "frameworks": {
     "netcoreapp1.0": {
@@ -14,7 +14,9 @@
         "Microsoft.NETCore.App": {
           "type": "platform",
           "version": "1.0.0"
-        }
+        },
+        "NETStandard.Library": "1.6.0"
+        
       },
       "imports": "dnxcore50"
     }
