@@ -7,10 +7,8 @@ Bartender is a CQRS propose without any dependencies and avaible for all netstan
 
 ## Installation
 
-**/!\ Bartender is now in RC version.**
-
 ```
-PM> Install-Package Bartender -Pre
+PM> Install-Package Bartender
 ```
 
 
@@ -20,6 +18,8 @@ PM> Install-Package Bartender -Pre
   * Suit well with IoC
   * Simple Publish-subscribe mode
   * Automatic validation
+
+## Getting started
 
 
 ## Licence
