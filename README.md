@@ -19,7 +19,11 @@ PM> Install-Package Bartender
   * Simple Publish-subscribe mode
   * Automatic validation
 
+
 ## Getting started
+
+#### Dependencies
+First thing you have to do with Bartender is to implement the *IDependencyContainer* interface and register it into a IoC container.
 
 
 ## Licence
