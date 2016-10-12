@@ -27,6 +27,7 @@ First thing you have to do with **Bartender** is to implement the *[IDependencyC
 
 You also need to register your handlers which implements handle behavior (*[IHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IHandler.cs)*, *[IAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncHandler.cs)*, *[ICancellableAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncHandler.cs)*) and bind dispatch interfaces (*[IDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IDispatcher.cs)*, *[IAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncDispatcher.cs)*, *[ICancellableAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncDispatcher.cs)*) to the *[Dispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/Dispatcher.cs)* class.
 
+The step complexity really depends on which IoC container you use in your project. In samples you can find dependencies registration with StructureMap [here](https://github.com/Vtek/Bartender/blob/master/samples/ConsoleApplication/ConsoleApplication/Registries/InfrastructureRegistry.cs)
 
 ## Licence
 
