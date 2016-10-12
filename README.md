@@ -23,8 +23,9 @@ PM> Install-Package Bartender
 ## Getting started
 
 #### Dependencies
-First thing you have to do with **Bartender** is to implement the *IDependencyContainer* interface and register it into a IoC container. 
-You also need to register your handlers which implements handle behavior (*[IHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IHandler.cs)*, *[IAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncHandler.cs)*, *[ICancellableAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncHandler.cs)*) and bind dispatch interfaces (*[IDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IDispatcher.cs)*, *[IAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncDispatcher.cs)*, *[ICancellableAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncDispatcher.cs)*) to the Dispatcher class.
+First thing you have to do with **Bartender** is to implement the *[IDependencyContainer](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IDependencyContainer.cs)* interface and register it into a IoC container. 
+
+You also need to register your handlers which implements handle behavior (*[IHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IHandler.cs)*, *[IAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncHandler.cs)*, *[ICancellableAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncHandler.cs)*) and bind dispatch interfaces (*[IDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IDispatcher.cs)*, *[IAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncDispatcher.cs)*, *[ICancellableAsyncDispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/ICancellableAsyncDispatcher.cs)*) to the *[Dispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/Dispatcher.cs)* class.
 
 
 ## Licence
