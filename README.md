@@ -44,7 +44,7 @@ public class GetPersonByIdQuery : IMessage
 }
 ```
 
-> By convention in **CQRS** when you define a message to read data it have to be suffix with **Query** and by opposition **Command** define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
+> By convention in **CQRS** when you define a message to read data it have to be suffix with **Query** and by opposition **Command** define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.
 
 
 When your message is define, you have to write an handler for it. Handler can be implement with synchronous or ascynchronous execution :
@@ -81,7 +81,20 @@ public class CreatePersonCommandHandler : IHandler<CreatePersonCommand>
 }
 ```
 
-Last 
+When handlers are register with IoC and can be finded by your *IDependencyContainer* implementation, the message is dispatchable :
+
+```Csharp
+IDispatcher dispatcher = new Dispatcher();
+dispatcher.Dispatch<GetPersonByIdQuery, GetPersonReadModel>(new GetPersonByIdQuery(1));
+```
+
+If your define an asynchronous handler, dispatch it with *IAsyncDispatcher* : 
+```Csharp
+IAsyncDispatcher dispatcher = new Dispatcher();
+await dispatcher.DispatchAsync<CreatePersonCommand>(new CreatePersonCommand(1, "Name"));
+```
+
+> As you certainly notice, Dispatcher explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
 
 ## Licence
 
