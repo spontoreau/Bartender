@@ -30,7 +30,7 @@ You also need to register your handlers (*[IHandler](https://github.com/Vtek/Bar
 This step really depend on which IoC container you use in your project. Check out project samples, you can find dependencies registration with StructureMap [here](https://github.com/Vtek/Bartender/blob/master/samples/ConsoleApplication/ConsoleApplication/Registries/InfrastructureRegistry.cs)
 
 #### Write a message and handle it !
-A message is just an implementation of the *[IMessage](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IMessage.cs)* interface. You can consider the interface to work as a marker and it never impose to write specific code. When mark as *IMessage* an *Object* can be dispatch with the library. For exemple if you want to retreive information of a person who has a identifier, you can define a message like this :
+A message is just an implementation of the *[IMessage](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IMessage.cs)* interface. You can consider the interface to work as a marker and it never impose to write specific code. When mark as *IMessage* an *Object* can be dispatch with the library. For exemple if you want to retreive information of a person who's got an identifier, you can define a message like this :
 
 ```Csharp
 public class GetPersonByIdQuery : IMessage
