@@ -81,20 +81,20 @@ public class CreatePersonCommandHandler : IHandler<CreatePersonCommand>
 }
 ```
 
-When handlers are register with IoC and can be finded by your *IDependencyContainer* implementation, the message is dispatchable :
+When handlers are register with IoC and can be finded by your *[IDependencyContainer](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IDependencyContainer.cs)* implementation, the message is dispatchable :
 
 ```Csharp
 IDispatcher dispatcher = new Dispatcher();
 dispatcher.Dispatch<GetPersonByIdQuery, GetPersonReadModel>(new GetPersonByIdQuery(1));
 ```
 
-If your define an asynchronous handler, dispatch it with *IAsyncDispatcher* : 
+If your define an asynchronous handler, dispatch it with *[IAsyncHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IAsyncHandler.cs)* : 
 ```Csharp
 IAsyncDispatcher dispatcher = new Dispatcher();
 await dispatcher.DispatchAsync<CreatePersonCommand>(new CreatePersonCommand(1, "Name"));
 ```
 
-> As you certainly notice, Dispatcher explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
+> As you certainly notice, *Dispatcher* explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
 
 
 ## Advanced features
