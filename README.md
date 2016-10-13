@@ -19,6 +19,8 @@ PM> Install-Package Bartender
   * Simple Publish-Subscribe mode
   * Automatic validation
 
+## Getting started
+
 
 ## Getting started
 
