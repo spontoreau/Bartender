@@ -71,7 +71,7 @@ public class GetPersonByIdQueryHandler : IAsyncHandler<GetPersonByIdQuery, GetPe
 }
 ```
 
-The nature of queries is to retreive data, but for a command you can define to return an object or not (for fire & forget operation). To deal with this case, IHandler can be implement without return :
+The nature of queries is to retreive data, but for a command you can define to return an object or not (for *Fire & Forget* operation). To deal with this case, *[IHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IHandler.cs)* can be implement without return :
 
 ```Csharp
 public class CreatePersonCommandHandler : IHandler<CreatePersonCommand>
