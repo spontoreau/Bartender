@@ -96,6 +96,16 @@ await dispatcher.DispatchAsync<CreatePersonCommand>(new CreatePersonCommand(1, "
 
 > As you certainly notice, Dispatcher explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
 
+
+## Advance features
+
+#### Publication
+
+#### Validation
+
+#### Cancellable dispatching
+
+
 ## Licence
 
 MIT
