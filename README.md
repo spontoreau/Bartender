@@ -44,11 +44,12 @@ public class GetPersonByIdQuery : IMessage
 }
 ```
 
-*By convention in CQRS when you define a message to read data it have to be suffix with Query and by opposition Command define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
+> By convention in **CQRS** when you define a message to read data it have to be suffix with **Query** and by opposition **Command** define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
 
 When your message is define, you have to write an handler for it. Handler can be implement with synchronous or ascynchronous execution :
 
 ```Csharp
+//Synchronous handler
 public class GetPersonByIdQueryHandler : IHandler<GetPersonByIdQuery, GetPersonReadModel>
 {
     public GetPersonReadModel Handle(GetPersonByIdQuery message)
@@ -56,6 +57,16 @@ public class GetPersonByIdQueryHandler : IHandler<GetPersonByIdQuery, GetPersonR
         //add you logic code here
     }
 }
+
+//Asynchronous handler
+public class GetPersonByIdQueryHandler : IAsyncHandler<GetPersonByIdQuery, GetPersonReadModel>
+{
+    public GetPersonReadModel HandleAsync(GetPersonByIdQuery message)
+    {
+        //add you logic code here
+    }
+}
+
 ```
 
 The nature of queries is to retreive data, but for a command you can define to return an object or not (for fire & forget operation). To deal with this case, IHandler can be implement without return :
