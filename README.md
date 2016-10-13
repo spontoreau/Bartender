@@ -96,7 +96,7 @@ IAsyncDispatcher dispatcher = new Dispatcher();
 await dispatcher.DispatchAsync<CreatePersonCommand>(new CreatePersonCommand(1, "Name"));
 ```
 
-> As you certainly notice, *Dispatcher* explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
+> As you certainly notice, *[Dispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/Dispatcher.cs)* explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
 
 
 ## Advanced features
