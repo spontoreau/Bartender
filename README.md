@@ -44,7 +44,7 @@ public class GetPersonByIdQuery : IMessage
 }
 ```
 
-*By convention in **CQRS** when you define a message to read data it have to be suffix with **Query** and by opposition **Command** define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
+*By convention in CQRS when you define a message to read data it have to be suffix with Query and by opposition Command define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
 
 
 ## Licence
