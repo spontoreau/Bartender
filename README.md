@@ -30,7 +30,7 @@ You also need to register your handlers (*[IHandler](https://github.com/Vtek/Bar
 This step really depend on which IoC container you use in your project. Check out project samples, you can find dependencies registration with StructureMap [here](https://github.com/Vtek/Bartender/blob/master/samples/ConsoleApplication/ConsoleApplication/Registries/InfrastructureRegistry.cs)
 
 #### Write a message and handle it !
-A message is just an implementation of the *[IMessage](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IMessage.cs)* interface. You can consider the interface to work as a marker and it never impose to write specific code. When mark as *IMessage* an *Object* can be dispatch with the library. For exemple if you want to retreive information of a person who's got an identifier, you can define a message like this :
+A message is just an implementation of the *[IMessage](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IMessage.cs)* interface. You can consider the interface to work as a marker and it never impose to write specific code. When mark as *IMessage* an *Object* can be dispatch with the library. For exemple if you want to retreive informations of a person who's got an identifier, you can define a message like this :
 
 ```Csharp
 public class GetPersonByIdQuery : IMessage
@@ -45,6 +45,31 @@ public class GetPersonByIdQuery : IMessage
 ```
 
 *By convention in CQRS when you define a message to read data it have to be suffix with Query and by opposition Command define a write operation message. The library don't force you to respect this principle but it is a good way to organise your project.*
+
+When your message is define, you have to write an handler for it. Handler can be implement with synchronous or ascynchronous execution :
+
+```Csharp
+public class GetPersonByIdQueryHandler : IHandler<GetPersonByIdQuery, GetPersonReadModel>
+{
+    public GetPersonReadModel Handle(GetPersonByIdQuery message)
+    {
+        //add you logic code here
+    }
+}
+```
+
+The nature of queries is to retreive data, but for a command you can define to return an object or not (for fire & forget operation). To deal with this case, IHandler can be implement without return :
+
+```Csharp
+public class CreatePersonCommandHandler : IHandler<CreatePersonCommand>
+{
+    public void Handle(CreatePersonCommand message)
+    {
+        //add you logic code here
+    }
+}
+```
+
 
 
 ## Licence
