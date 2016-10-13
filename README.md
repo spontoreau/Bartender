@@ -71,7 +71,7 @@ public class GetPersonByIdQueryHandler : IAsyncHandler<GetPersonByIdQuery, GetPe
 }
 ```
 
-The nature of queries is to retreive data, but for a command you can define to return an object or not (for fire & forget operation). To deal with this case, IHandler can be implement without return :
+The nature of queries is to retreive data, but for a command you can define to return an object or not (for *Fire & Forget* operation). To deal with this case, *[IHandler](https://github.com/Vtek/Bartender/blob/master/src/Bartender/IHandler.cs)* can be implement without return :
 
 ```Csharp
 public class CreatePersonCommandHandler : IHandler<CreatePersonCommand>
@@ -96,7 +96,7 @@ IAsyncDispatcher dispatcher = new Dispatcher();
 await dispatcher.DispatchAsync<CreatePersonCommand>(new CreatePersonCommand(1, "Name"));
 ```
 
-> As you certainly notice, *Dispatcher* explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
+> As you certainly notice, *[Dispatcher](https://github.com/Vtek/Bartender/blob/master/src/Bartender/Dispatcher.cs)* explicitly implement dispatching interfaces. This type of implementation force developer to use the instance as interface and suit well with IoC too :)
 
 
 ## Advanced features
